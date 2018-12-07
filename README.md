@@ -1,7 +1,11 @@
 # Micro-Services Communication Demo
 
-- Web-Frontend exposes port `80`
-- API-Backend exposes port `8080`
+This is a small demo project to quickly setup a mix of containerized micro-services which communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
+
+Currently, it consists of
+
+- An API-Backend, that exposes port `8080`
+- A Web-Frontend, that exposes port `80` and connects to the API-Backend for getting random numbers
 
 ## Make it run
 
