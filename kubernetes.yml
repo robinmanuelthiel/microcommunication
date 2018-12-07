@@ -1,0 +1,79 @@
+#######################################################
+# API                                                 #
+#######################################################
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 3
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: microcommunication-api
+          image: robinmanuelthiel/microcommunication-api:latest            
+          ports:
+          - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: api
+---
+
+#######################################################
+# Web Frontend                                        #
+#######################################################
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: microcommunication-web
+          image: robinmanuelthiel/microcommunication-web
+          env:
+          - name: RandomApiHost
+            value: "http://api:8080/api/random"
+          ports:
+          - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+  selector:
+    app: web

@@ -1,0 +1,145 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "resources": [
+        {
+            "apiVersion": "2018-09-01-preview",
+            "name": "network",
+            "type": "Microsoft.ServiceFabricMesh/networks",
+            "location": "westeurope",
+            "dependsOn": [],
+            "properties": {
+                "kind": "Local",
+                "description": "Service Fabric Mesh Network.",
+                "networkAddressPrefix": "10.0.0.0/24"
+            }
+        },
+        {
+            "apiVersion": "2018-09-01-preview",
+            "name": "microcommunication",
+            "type": "Microsoft.ServiceFabricMesh/applications",
+            "location": "westeurope",
+            "dependsOn": [
+                "Microsoft.ServiceFabricMesh/networks/network"
+            ],
+            "properties": {
+                "services": [
+                    {
+                        "name": "api",
+                        "properties": {
+                            "description": "REST API",
+                            "osType": "Linux",
+                            "codePackages": [
+                                {
+                                    "name": "microcommunication-api",
+                                    "image": "robinmanuelthiel/microcommunication-api:latest",
+                                    "endpoints": [
+                                        {
+                                            "name": "http",
+                                            "port": 8080
+                                        }
+                                    ],
+                                    "resources": {
+                                        "requests": {
+                                            "cpu": "0.5",
+                                            "memoryInGB": "1"
+                                        }
+                                    }
+                                }
+                            ],
+                            "replicaCount": "1",
+                            "networkRefs": [
+                                {
+                                    "name": "[resourceId('Microsoft.ServiceFabricMesh/networks', 'network')]",
+                                    "endpointRefs": [
+                                        {
+                                            "name": "http"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "name": "web",
+                        "properties": {
+                            "description": "Web Frontend",
+                            "osType": "Linux",
+                            "codePackages": [
+                                {
+                                    "name": "microcommunication-web",
+                                    "image": "robinmanuelthiel/microcommunication-web:latest",
+                                    "endpoints": [
+                                        {
+                                            "name": "http",
+                                            "port": 80
+                                        }
+                                    ],
+                                    "environmentVariables": [
+                                        {
+                                            "name": "RandomApiHost",
+                                            "value": "http://api:8080/api/random"
+                                        }
+                                    ],
+                                    "resources": {
+                                        "requests": {
+                                            "cpu": "0.5",
+                                            "memoryInGB": "1"
+                                        }
+                                    }
+                                }
+                            ],
+                            "replicaCount": "1",
+                            "networkRefs": [
+                                {
+                                    "name": "[resourceId('Microsoft.ServiceFabricMesh/networks', 'network')]",
+                                    "endpointRefs": [
+                                        {
+                                            "name": "http"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2018-09-01-preview",
+            "name": "ingress-gateway",
+            "type": "Microsoft.ServiceFabricMesh/gateways",
+            "location": "westeurope",
+            "tags": {},
+            "dependsOn": [
+                "Microsoft.ServiceFabricMesh/networks/network"
+            ],
+            "properties": {
+                "description": "Service Fabric Mesh Gateway.",
+                "sourceNetwork": {
+                    "name": "Open"
+                },
+                "destinationNetwork": {
+                    "name": "[resourceId('Microsoft.ServiceFabricMesh/networks', 'network')]"
+                },
+                "tcp": [
+                    {
+                        "name": "web",
+                        "port": 80,
+                        "destination": {
+                            "applicationName": "microcommunication",
+                            "serviceName": "web",
+                            "endpointName": "http"
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "outputs": {
+        "publicIPAddress": {
+            "value": "[reference('ingress-gateway').ipAddress]",
+            "type": "string"
+        }
+    }
+}
