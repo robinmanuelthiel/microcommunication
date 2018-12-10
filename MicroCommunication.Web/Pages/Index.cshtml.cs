@@ -11,25 +11,27 @@ namespace MicroCommunication.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        readonly string randomApiHost;
+        public readonly string RandomApiHost;
+        public string Random;
+        public string Error;
 
         public IndexModel(IConfiguration configuration)
         {
-            randomApiHost = configuration["RandomApiHost"];
+            RandomApiHost = configuration["RandomApiHost"];
         }
 
         public void OnGet()
-        {           
+        {
             try
             {
                 var client = new HttpClient();
-                var result = client.GetAsync(randomApiHost).GetAwaiter().GetResult();
+                var result = client.GetAsync(RandomApiHost).GetAwaiter().GetResult();
                 var number = result.Content.ReadAsStringAsync().Result;
-                ViewData["Random"] = number;
+                Random = number;
             }
             catch (Exception ex)
             {
-                ViewData["Random"] = "Error: " + ex;
+                Error = "Error: " + ex;
             }
 
         }
