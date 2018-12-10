@@ -4,7 +4,9 @@
     ViewData["Title"] = "Home page";
 }
 
-<h1>We rolled the dice: @ViewData["Random"]</h1>
-<small class="text-muted">From: @model.RandomApiHost</small>
+<h1>We rolled the dice: @Model.Random</h1>
+<small class="text-muted">From: @Model.RandomApiHost</small>
 
-<small class="text-muted">@model.Error</small>
+<p style="margin-top: 3em;">
+    <small class="text-muted">@Model.Error</small>
+</p>
