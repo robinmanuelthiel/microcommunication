@@ -1,6 +1,6 @@
 # Micro-Services Communication Demo
 
-This is a small demo project to quickly setup a mix of containerized micro-services which communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
+This is a small demo project to quickly setup a mix of containerized micro-services that communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
 
 Currently, it consists of
 
@@ -9,7 +9,7 @@ Currently, it consists of
 
 ## Make it run
 
-### Docker-compose
+### Docker Compose
 
 ```bash
 docker build -t "microcommunication-api:latest" MicroCommunication.Api/
