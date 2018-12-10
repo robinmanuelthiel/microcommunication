@@ -16,7 +16,7 @@ namespace MicroCommunication.Api.Controllers
         {
             // Roll the dice!
             var random = new Random();
-            return random.Next(5) + 1;
+            return random.Next(1, 7);
         }
     }
 }
