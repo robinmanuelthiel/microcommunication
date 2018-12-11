@@ -9,7 +9,16 @@ Currently, it consists of
 
 ## Make it run
 
-### Docker Compose
+### Prerequisites
+
+- [.NET Core 2 SDK](https://dotnet.microsoft.com/download)
+- [Docker](https://www.docker.com/products/docker-desktop)
+
+The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](). Just open the folder and select the *Launch Microservices* Debug configuration.
+
+### Orchestrators
+
+#### Docker Compose
 
 ```bash
 docker build -t "microcommunication-api:latest" MicroCommunication.Api/
@@ -18,13 +27,13 @@ docker build -t "microcommunication-web:latest" MicroCommunication.Web/
 docker-compose -f docker-compose.yml up
 ```
 
-### Kubernetes
+#### Kubernetes
 
 ```bash
 kubectl create -f kubernetes.yml
 ```
 
-### Service Fabric Mesh
+#### Service Fabric Mesh
 
 ```bash
 z mesh deployment create --resource-group Demo --template-file servicefabric-mesh.json
