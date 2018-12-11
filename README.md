@@ -25,8 +25,6 @@ This Demo project is intendet to be tested within a container orchestrators. As 
 
 #### Docker Compose
 
-Build the images locally
-
 ```bash
 docker build -t "microcommunication-api:latest" MicroCommunication.Api/
 docker build -t "microcommunication-web:latest" MicroCommunication.Web/
