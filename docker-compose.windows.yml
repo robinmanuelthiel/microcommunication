@@ -5,16 +5,16 @@ services:
     build:
       context: MicroCommunication.Api
       dockerfile: Dockerfile
-    image: microcommunication-api:latest
+    image: microcommunication-api:latest-win
     ports:
       - "8080:8080"
   web:
     build:
       context: MicroCommunication.Web
       dockerfile: Dockerfile
-    image: microcommunication-web:latest
+    image: microcommunication-web:latest-win
     ports:
       - "5000:80"
-      - "5001:443"    
+      - "5001:443"
     environment:
       - RandomApiHost=http://api:8080/api/random
