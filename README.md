@@ -15,7 +15,7 @@ Currently, it consists of
 - [.NET Core 2 SDK](https://dotnet.microsoft.com/download)
 - [Docker](https://www.docker.com/products/docker-desktop)
 
-The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](). Just open the folder and select the *Launch Microservices* Debug configuration.
+The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the *Launch Microservices* Debug configuration.
 
 ![Screenshot of Visual Stuido Code](Assets/LaunchInVsCode.png)
 
