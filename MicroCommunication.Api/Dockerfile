@@ -26,8 +26,8 @@ FROM microsoft/dotnet:2.1.3-aspnetcore-runtime-alpine
 
 WORKDIR /app
 
-# Open Bot port
-EXPOSE 3978
+# Open port
+EXPOSE 8080
 
 # Copy the build output from the SDK image
 COPY --from=build /out .

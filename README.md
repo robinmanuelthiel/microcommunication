@@ -8,7 +8,7 @@ Currently, it consists of
 
 - An API Backend, that exposes port `8080`
 - A Web Frontend, that exposes port `80`
-    - Connects to the API Backend for getting random numbers using the `RandomApiHost` environment variable
+  - Connects to the API Backend for getting random numbers using the `RandomApiHost` environment variable
 
 ## Make it run
 
@@ -19,7 +19,7 @@ Currently, it consists of
 
 The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the *Launch Microservices* Debug configuration.
 
-![Screenshot of Visual Stuido Code](Assets/LaunchInVsCode.png)
+![Screenshot of Visual Studio Code](Assets/LaunchInVsCode.png)
 
 ## Orchestrators
 
