@@ -1,5 +1,7 @@
 # Micro-Services Communication Demo
 
+[![Docker](https://img.shields.io/badge/Docker-API-blue.svg)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-api/) [![Docker](https://img.shields.io/badge/Docker-Web-blue.svg)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
+
 This is a small demo project to quickly setup a mix of containerized micro-services that communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
 
 Currently, it consists of
