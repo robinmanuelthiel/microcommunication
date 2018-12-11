@@ -20,12 +20,18 @@ The easiest way to run and debug the microservices on you development machine is
 
 ### Orchestrators
 
+This Demo project is intendet to be tested within a container orchestrators. As there are various different orchestrators out there, you can find configuration files for multiple different ones in the repository.
+
 #### Docker Compose
+
+Build the images locally
 
 ```bash
 docker build -t "microcommunication-api:latest" MicroCommunication.Api/
 docker build -t "microcommunication-web:latest" MicroCommunication.Web/
+```
 
+```bash
 docker-compose -f docker-compose.yml up
 ```
 
@@ -38,5 +44,5 @@ kubectl create -f kubernetes.yml
 #### Service Fabric Mesh
 
 ```bash
-z mesh deployment create --resource-group Demo --template-file servicefabric-mesh.json
+az mesh deployment create --resource-group Demo --template-file servicefabric-mesh.json
 ```
