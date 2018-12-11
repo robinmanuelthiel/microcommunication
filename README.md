@@ -29,13 +29,6 @@ This Demo project is intended to be tested within a container orchestrators. As 
 docker-compose -f docker-compose.yml up
 ```
 
-If you want to build the Docker images locally and run them from your local image directory, you can build them with the following commands and use the `docker-compose.local.yml` file for your Docker Compose command.
-
-```bash
-docker build -t "microcommunication-api:latest" MicroCommunication.Api/
-docker build -t "microcommunication-web:latest" MicroCommunication.Web/
-```
-
 ### Kubernetes
 
 ```bash
