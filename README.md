@@ -16,6 +16,8 @@ Currently, it consists of
 
 The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](). Just open the folder and select the *Launch Microservices* Debug configuration.
 
+![Screenshot of Visual Stuido Code](Assets/LaunchInVsCode.png)
+
 ### Orchestrators
 
 #### Docker Compose
