@@ -5,7 +5,8 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 Currently, it consists of
 
 - An API Backend, that exposes port `8080`
-- A Web Frontend, that exposes port `80` and connects to the API-Backend for getting random numbers
+- A Web Frontend, that exposes port `80`
+    - Connects to the API Backend for getting random numbers using the `RandomApiHost` environment variable
 
 ## Make it run
 
