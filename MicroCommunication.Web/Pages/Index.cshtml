@@ -4,8 +4,11 @@
     ViewData["Title"] = "Home page";
 }
 
-<h1>We rolled the dice: @Model.Random</h1>
-<small class="text-muted">From: @Model.RandomApiHost</small>
+<img style="margin-top: 1em;" src='@Url.Content("~/images/dice-" + Model.Random + ".svg")' alt="dice" height="100" />
+
+<h1>We rolled the dice</h1>
+<small class="text-muted">Result: @Model.Random</small><br>
+<small class="text-muted">Backend: @Model.RandomApiHost</small>
 
 <p style="margin-top: 3em;">
     <small class="text-muted">@Model.Error</small>

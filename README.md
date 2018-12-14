@@ -4,7 +4,9 @@
 
 This is a small demo project to quickly setup a mix of containerized micro-services that communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
 
-Currently, it consists of
+![Screenshot of the Web Frontend](Assets/Screenshot.png)
+
+The project consists of
 
 - An API Backend, that exposes port `8080`
 - A Web Frontend, that exposes port `80`
