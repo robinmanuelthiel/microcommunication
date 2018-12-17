@@ -1,4 +1,4 @@
-![Screenshot of the Web Frontend](Assets/Screenshot.png)
+![Screenshot of the Web Frontend](assets/Screenshot.png)
 
 # Micro-Services Communication Demo
 
@@ -21,7 +21,7 @@ The project consists of
 
 The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the *Launch Microservices* Debug configuration.
 
-![Screenshot of Visual Studio Code](Assets/LaunchInVsCode.png)
+![Screenshot of Visual Studio Code](assets/LaunchInVsCode.png)
 
 ## Orchestrators
 

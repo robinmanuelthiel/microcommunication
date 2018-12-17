@@ -10,14 +10,14 @@
             "request": "launch",
             "preLaunchTask": "build-api",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/MicroCommunication.Api/bin/Debug/netcoreapp2.1/MicroCommunication.Api.dll",
+            "program": "${workspaceFolder}/src/MicroCommunication.Api/bin/Debug/netcoreapp2.1/MicroCommunication.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/MicroCommunication.Api",
+            "cwd": "${workspaceFolder}/src/MicroCommunication.Api",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
-                "args": "${auto-detect-url}",
+                "args": "${auto-detect-url}/api/random",
                 "windows": {
                     "command": "cmd.exe",
                     "args": "/C start ${auto-detect-url}"
@@ -33,7 +33,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+                "/Views": "${workspaceFolder}/src/Views"
             }
         },
         {
@@ -42,9 +42,9 @@
             "request": "launch",
             "preLaunchTask": "build-web",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/MicroCommunication.Web/bin/Debug/netcoreapp2.1/MicroCommunication.Web.dll",
+            "program": "${workspaceFolder}/src/MicroCommunication.Web/bin/Debug/netcoreapp2.1/MicroCommunication.Web.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/MicroCommunication.Web",
+            "cwd": "${workspaceFolder}/src/MicroCommunication.Web",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
@@ -65,7 +65,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
+                "/Views": "${workspaceFolder}/src/Views"
             }
         }
     ],

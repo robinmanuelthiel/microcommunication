@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MicroCommunication.Api/MicroCommunication.Api.csproj"
+                "${workspaceFolder}/src/MicroCommunication.Api/MicroCommunication.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -17,7 +17,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MicroCommunication.Web/MicroCommunication.Web.csproj"
+                "${workspaceFolder}/src/MicroCommunication.Web/MicroCommunication.Web.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
