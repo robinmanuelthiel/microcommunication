@@ -25,7 +25,7 @@ The easiest way to run and debug the microservices on you development machine is
 
 ## Orchestrators
 
-This Demo project is intended to be tested within a container orchestrators. As there are various different orchestrators out there, you can find configuration files for multiple different ones in the repository.
+This Demo project is intended to be tested within container orchestrators. For the various different orchestrators out there, you can find configuration files for multiple different ones in the repository.
 
 > **Windows Containers:** If you want to run on Windows, feel free to use the Windows versions of these containers instead by using the `*.windows.*` files, where available.
 
