@@ -2,8 +2,8 @@
 # API                                                 #
 #######################################################
 
-apiVersion: apps/v1beta1
 kind: Deployment
+apiVersion: apps/v1beta1
 metadata:
   name: api
 spec:
@@ -31,25 +31,26 @@ spec:
               memory: "128Mi"
               cpu: "500m"
 ---
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: api
 spec:
-  type: LoadBalancer
-  ports:
-  - name: http
-    port: 8080
+  type: ClusterIP
   selector:
     app: api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
 ---
 
 #######################################################
 # Web Frontend                                        #
 #######################################################
 
-apiVersion: apps/v1beta1
 kind: Deployment
+apiVersion: apps/v1beta1
 metadata:
   name: web
 spec:
@@ -80,14 +81,14 @@ spec:
               memory: "128Mi"
               cpu: "500m"
 ---
-apiVersion: v1
 kind: Service
+apiVersion: v1
 metadata:
   name: web
 spec:
   type: LoadBalancer
+  selector:
+    app: web
   ports:
   - name: http
     port: 80
-  selector:
-    app: web
