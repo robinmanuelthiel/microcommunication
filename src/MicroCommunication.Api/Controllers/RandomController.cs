@@ -12,11 +12,24 @@ namespace MicroCommunication.Api.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<int> Get()
+        [Route("dice")]
+        public ActionResult<int> GetDice()
         {
             // Roll the dice!
             var random = new Random();
             return random.Next(1, 7);
+        }
+
+        // GET api/values
+        [HttpGet]
+        [Route("value")]
+        public ActionResult<int> Get(int max)
+        {
+            var random = new Random();
+            if (max > 0)
+                return random.Next(0, max);
+            else
+                return random.Next();
         }
     }
 }

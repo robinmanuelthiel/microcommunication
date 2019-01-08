@@ -25,7 +25,7 @@ namespace MicroCommunication.Web.Pages
             try
             {
                 var client = new HttpClient();
-                var result = client.GetAsync(RandomApiHost).GetAwaiter().GetResult();
+                var result = client.GetAsync(RandomApiHost + "/dice").GetAwaiter().GetResult();
                 var number = result.Content.ReadAsStringAsync().Result;
                 Random = number;
             }
