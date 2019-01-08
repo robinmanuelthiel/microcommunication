@@ -1,6 +1,6 @@
 ![Screenshot of the Web Frontend](assets/Screenshot.png)
 
-# Micro-Services Communication Demo
+# Micro-service Intercommunication Demo
 
 [![Docker](https://img.shields.io/badge/Docker%20Image-API-blue.svg)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-api/) [![Docker](https://img.shields.io/badge/Docker%20Image-Web-blue.svg)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
 
