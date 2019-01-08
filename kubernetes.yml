@@ -12,7 +12,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 1
-  minReadySeconds: 5 
+  minReadySeconds: 5
   template:
     metadata:
       labels:
@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: microcommunication-api
-          image: robinmanuelthiel/microcommunication-api:latest            
+          image: robinmanuelthiel/microcommunication-api:latest
           ports:
           - containerPort: 8080
           resources:
@@ -58,7 +58,7 @@ spec:
     rollingUpdate:
       maxSurge: 1
       maxUnavailable: 1
-  minReadySeconds: 5 
+  minReadySeconds: 5
   template:
     metadata:
       labels:
@@ -66,7 +66,7 @@ spec:
     spec:
       containers:
         - name: microcommunication-web
-          image: robinmanuelthiel/microcommunication-web
+          image: robinmanuelthiel/microcommunication-web:latest
           env:
           - name: RandomApiHost
             value: "http://api:8080/api/random"
