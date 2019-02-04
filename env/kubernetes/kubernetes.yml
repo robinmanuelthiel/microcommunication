@@ -35,8 +35,11 @@ kind: Service
 apiVersion: v1
 metadata:
   name: api
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "api-ingress-subnet"
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     app: api
   ports:
@@ -71,6 +74,8 @@ spec:
           env:
           - name: RandomApiHost
             value: "http://api:8080/api/random"
+          - name: RandomApiKey
+            value: ""
           ports:
           - containerPort: 80
           resources:

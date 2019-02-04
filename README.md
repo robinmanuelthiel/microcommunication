@@ -32,17 +32,17 @@ This Demo project is intended to be tested within container orchestrators. For t
 ### Docker Compose
 
 ```bash
-docker-compose -f docker-compose.yml up
+docker-compose -f env/docker-compose/docker-compose.yml up
 ```
 
 ### Kubernetes
 
 ```bash
-kubectl create -f kubernetes.yml
+kubectl create -f env/kubernetes/kubernetes.yml
 ```
 
 ### Service Fabric Mesh
 
 ```bash
-az mesh deployment create --resource-group Demo --template-file servicefabric-mesh.json
+az mesh deployment create --resource-group Demo --template-file env/servicefabric-mesh/servicefabric-mesh.json
 ```

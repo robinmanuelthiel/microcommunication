@@ -2,17 +2,17 @@ version: '3.6'
 
 services:
   api:
-    build:
-      context: MicroCommunication.Api
-      dockerfile: Dockerfile
     image: microcommunication-api:latest-win
+    build:
+      context: src/MicroCommunication.Api
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
   web:
-    build:
-      context: MicroCommunication.Web
-      dockerfile: Dockerfile
     image: microcommunication-web:latest-win
+    build:
+      context: src/MicroCommunication.Web
+      dockerfile: Dockerfile
     ports:
       - "5000:80"
       - "5001:443"
