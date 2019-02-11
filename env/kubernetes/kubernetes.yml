@@ -35,9 +35,9 @@ kind: Service
 apiVersion: v1
 metadata:
   name: api
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "api-ingress-subnet"
+#  annotations:
+#    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+#    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "api-ingress-subnet"
 spec:
   type: LoadBalancer
   selector:
