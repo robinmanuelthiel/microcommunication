@@ -33,7 +33,7 @@ This Demo project is intended to be tested within container orchestrators. For t
 ### Docker Compose
 
 ```bash
-docker-compose -f env/docker-compose/docker-compose.yml up
+docker-compose -f env/docker-compose/docker-compose.yaml up
 ```
 
 ### Kubernetes
