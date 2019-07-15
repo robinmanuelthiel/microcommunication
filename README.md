@@ -2,7 +2,8 @@
 
 # Micro-service Intercommunication Demo
 
-[![Docker](https://img.shields.io/badge/Docker%20Image-API-blue.svg)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-api/) [![Docker](https://img.shields.io/badge/Docker%20Image-Web-blue.svg)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
+[![Docker](https://img.shields.io/badge/Docker%20Image-robinmanuelthiel%2Fmicrocommunication--api-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-api/) [![Docker](https://img.shields.io/badge/Docker%20Image-robinmanuelthiel%2Fmicrocommunication--web-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
+[![Build Status](https://dev.azure.com/robinmanuelthiel/Microcommunication/_apis/build/status/Build%20and%20push?branchName=master)](https://dev.azure.com/robinmanuelthiel/Microcommunication/_build/latest?definitionId=9&branchName=master)
 
 This is a small demo project to quickly setup a mix of containerized micro-services that communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
 
@@ -19,7 +20,7 @@ The project consists of
 - [.NET Core 2 SDK](https://dotnet.microsoft.com/download)
 - [Docker](https://www.docker.com/products/docker-desktop)
 
-The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the *Launch Microservices* Debug configuration.
+The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the _Launch Microservices_ Debug configuration.
 
 ![Screenshot of Visual Studio Code](assets/LaunchInVsCode.png)
 
