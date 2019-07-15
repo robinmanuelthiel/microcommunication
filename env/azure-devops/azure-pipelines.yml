@@ -9,8 +9,8 @@ trigger:
     include:
       - master
   paths:
-    exclude:
-      - README.md
+    include:
+      - src
 
 pool:
   vmImage: 'ubuntu-latest'
