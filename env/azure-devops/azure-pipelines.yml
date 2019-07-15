@@ -21,7 +21,7 @@ steps:
   displayName: 'Build and push API Docker image'
   inputs:
     containerRegistry: 'Docker Hub'
-    repository: 'robinmanuelthiel/contosomaintenance-api'
+    repository: 'robinmanuelthiel/microcommunication-api'
     command: 'buildAndPush'
     Dockerfile: 'src/MicroCommunication.Api/Dockerfile'
     buildContext: 'src/MicroCommunication.Api'
@@ -33,7 +33,7 @@ steps:
   displayName: 'Build and push Web Docker image'
   inputs:
     containerRegistry: 'Docker Hub'
-    repository: 'robinmanuelthiel/contosomaintenance-web'
+    repository: 'robinmanuelthiel/microcommunication-web'
     command: 'buildAndPush'
     Dockerfile: 'src/MicroCommunication.Web/Dockerfile'
     buildContext: 'src/MicroCommunication.Web'
