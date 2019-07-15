@@ -26,7 +26,9 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'src/MicroCommunication.Api/Dockerfile'
     buildContext: 'src/MicroCommunication.Api/Dockerfile'
-    tags: '$(Build.BuildId), latest'
+   tags: |
+     $(Build.BuildId)
+     latest
 
 - task: Docker@2
   displayName: 'Build and push Web Docker image'
@@ -36,4 +38,6 @@ steps:
     command: 'buildAndPush'
     Dockerfile: 'src/MicroCommunication.Web/Dockerfile'
     buildContext: 'src/MicroCommunication.Web/Dockerfile'
-    tags: '$(Build.BuildId), latest'
+    tags: |
+     $(Build.BuildId)
+     latest
