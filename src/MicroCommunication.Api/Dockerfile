@@ -3,7 +3,7 @@
 #######################################################
 # Download the official ASP.NET Core SDK image
 # to build the project while creating the docker image
-FROM microsoft/dotnet:2.1-sdk as build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as build
 WORKDIR /app
 
 # Restore NuGet packages
@@ -21,9 +21,7 @@ RUN dotnet publish --output /out/ --configuration Debug
 #######################################################
 # Download the official ASP.NET Core Runtime image
 # to run the compiled application
-FROM microsoft/dotnet:2.1.3-aspnetcore-runtime-alpine
-#FROM microsoft/dotnet:2.1-aspnetcore-runtime-nanoserver-sac2016
-
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
 WORKDIR /app
 
 # Open port
