@@ -18,7 +18,7 @@ steps:
     repository: 'robinmanuelthiel/contosomaintenance-api'
     command: 'buildAndPush'
     Dockerfile: 'src/MicroCommunication.Api/Dockerfile'
-    buildContext: 'src/MicroCommunication.Api/'
+    buildContext: 'src/MicroCommunication.Api'
     tags: |
      $(Build.BuildId)
      latest
@@ -30,7 +30,7 @@ steps:
     repository: 'robinmanuelthiel/contosomaintenance-web'
     command: 'buildAndPush'
     Dockerfile: 'src/MicroCommunication.Web/Dockerfile'
-    buildContext: 'src/MicroCommunication.Web/'
+    buildContext: 'src/MicroCommunication.Web'
     tags: |
      $(Build.BuildId)
      latest
