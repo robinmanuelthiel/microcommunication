@@ -20,7 +20,7 @@ steps:
     Dockerfile: 'src/MicroCommunication.Api/Dockerfile'
     buildContext: 'src/MicroCommunication.Api'
     tags: |
-     $(Build.BuildId)
+     1.0.$(Build.BuildId)
      latest
 
 - task: Docker@2
@@ -32,5 +32,5 @@ steps:
     Dockerfile: 'src/MicroCommunication.Web/Dockerfile'
     buildContext: 'src/MicroCommunication.Web'
     tags: |
-     $(Build.BuildId)
+     1.0.$(Build.BuildId)
      latest
