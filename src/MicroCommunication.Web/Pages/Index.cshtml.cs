@@ -11,15 +11,18 @@ namespace MicroCommunication.Web.Pages
 {
     public class IndexModel : PageModel
     {
-        private string randomApiKey;
         public readonly string RandomApiHost;
         public string Random;
         public string Error;
+
+        private readonly string randomApiKey;
+        private readonly string ocpApimSubscriptionKey;
 
         public IndexModel(IConfiguration configuration)
         {
             RandomApiHost = configuration["RandomApiHost"];
             randomApiKey = configuration["RandomApiKey"];
+            ocpApimSubscriptionKey = configuration["OcpApimSubscriptionKey"];
         }
 
         public void OnGet()
@@ -27,7 +30,8 @@ namespace MicroCommunication.Web.Pages
             try
             {
                 var client = new HttpClient();
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", randomApiKey);
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", ocpApimSubscriptionKey);
+                client.DefaultRequestHeaders.Add("api-key", randomApiKey);
 
                 var result = client.GetAsync(RandomApiHost + "/dice").GetAwaiter().GetResult();
                 var number = result.Content.ReadAsStringAsync().Result;

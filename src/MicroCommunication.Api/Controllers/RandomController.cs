@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MicroCommunication.Api.Controllers
@@ -17,7 +14,13 @@ namespace MicroCommunication.Api.Controllers
         {
             // Roll the dice!
             var random = new Random();
-            return random.Next(1, 7);
+            var value = random.Next(1, 7);
+
+            // Log the result
+            Console.WriteLine($"The dice has been rolled: {value}");
+
+            // Return the result
+            return Ok(value);
         }
 
         // GET api/values
@@ -26,10 +29,17 @@ namespace MicroCommunication.Api.Controllers
         public ActionResult<int> Get(int max)
         {
             var random = new Random();
+            int value;
             if (max > 0)
-                return random.Next(0, max);
+                value = random.Next(0, max);
             else
-                return random.Next();
+                value = random.Next();
+
+            // Log the result
+            Console.WriteLine($"A random number has been generated: {value}");
+
+            // Return the result
+            return Ok(value);
         }
     }
 }
