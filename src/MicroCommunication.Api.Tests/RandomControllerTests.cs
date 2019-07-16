@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using MicroCommunication.Api.Controllers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MicroCommunication.Api.Tests
 {
@@ -9,11 +10,15 @@ namespace MicroCommunication.Api.Tests
         [Fact]
         public void Get_Dice_ReturnsOk()
         {
+            // Arrange
             var randomController = new RandomController();
 
+            // Act
             var result = randomController.GetDice();
-            var randomNumber = result.Value;
 
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var randomNumber = Assert.IsType<int>(okResult.Value);
             Assert.True(randomNumber > 0);
             Assert.True(randomNumber <= 6);
         }
@@ -21,23 +26,31 @@ namespace MicroCommunication.Api.Tests
         [Fact]
         public void Get_WithoutParamenter_ReturnsOk()
         {
+            // Arrange
             var randomController = new RandomController();
 
+            // Act
             var result = randomController.Get(0);
-            var randomNumber = result.Value;
 
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var randomNumber = Assert.IsType<int>(okResult.Value);
             Assert.True(randomNumber >= 0);
         }
 
         [Fact]
         public void Get_WithMax_ReturnsOk()
         {
+            // Arrange
             var randomController = new RandomController();
             var max = 100;
 
+            // Act
             var result = randomController.Get(max);
-            var randomNumber = result.Value;
 
+            // Assert
+            var okResult = Assert.IsType<OkObjectResult>(result.Result);
+            var randomNumber = Assert.IsType<int>(okResult.Value);
             Assert.True(randomNumber >= 0);
             Assert.True(randomNumber <= max);
         }

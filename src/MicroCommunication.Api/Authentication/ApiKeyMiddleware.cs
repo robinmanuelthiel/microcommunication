@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -11,36 +12,39 @@ namespace MicroCommunication.Api.Authentication
     /// </summary>
     public class ApiKeyMiddleware
     {
-        private readonly string apiKeyHeaderName = "api-key";
         private readonly RequestDelegate next;
-        private string apiKey { get; set; }
+        private readonly ApiKeyOptions configuration;
 
-        public ApiKeyMiddleware(RequestDelegate next, IConfiguration configuration)
+        public ApiKeyMiddleware(RequestDelegate next, ApiKeyOptions configuration)
         {
             this.next = next;
-            this.apiKey = configuration["ApiKey"];
+            this.configuration = configuration;
         }
 
         public async Task Invoke(HttpContext context)
         {
-            // Check, if API Header is present, when request contains /api path
-            if (context.Request.Path.ToString().Contains("/api"))
+            // Check, if current path does not require an API Key
+            if (!context.Request.Path.ToString().Contains("/api/"))
             {
-                if (!context.Request.Headers.Keys.Contains(apiKeyHeaderName))
-                {
-                    context.Response.StatusCode = 401; // Unauthorized
-                    await context.Response.WriteAsync($"API Key is missing. Please add an '{apiKeyHeaderName}' header");
-                    return;
-                }
-                else
-                {
-                    if (!apiKey.Equals(context.Request.Headers[apiKeyHeaderName]))
-                    {
-                        context.Response.StatusCode = 401; // Unauthorized
-                        await context.Response.WriteAsync("Invalid API Key.");
-                        return;
-                    }
-                }
+                await next.Invoke(context);
+                return;
+            }
+
+            // Check, if API Header is present, when request contains /api path
+            if (!context.Request.Headers.Keys.Contains(configuration.ApiKeyHeaderName))
+            {
+                context.Response.StatusCode = 401; // Unauthorized
+                await context.Response.WriteAsync(
+                    $"API Key is missing. Please add an '{configuration.ApiKeyHeaderName}' header");
+                return;
+            }
+
+            // Check, if API Key is correct
+            if (!configuration.ApiKey.Equals(context.Request.Headers[configuration.ApiKeyHeaderName]))
+            {
+                context.Response.StatusCode = 401; // Unauthorized
+                await context.Response.WriteAsync("Invalid API Key.");
+                return;
             }
 
             await next.Invoke(context);
@@ -49,10 +53,22 @@ namespace MicroCommunication.Api.Authentication
 
     public static class ApiKeyMiddlewareExtension
     {
-        public static IApplicationBuilder UseApiKey(this IApplicationBuilder app)
+        public static IApplicationBuilder UseApiKey(
+            this IApplicationBuilder app,
+            Action<ApiKeyOptions> setupAction = null)
         {
-            app.UseMiddleware<ApiKeyMiddleware>();
+            var options = new ApiKeyOptions();
+            if (setupAction != null)
+                setupAction.Invoke(options);
+
+            app.UseMiddleware<ApiKeyMiddleware>(options);
             return app;
         }
+    }
+
+    public class ApiKeyOptions
+    {
+        public string ApiKeyHeaderName { get; set; } = "api-key";
+        public string ApiKey { get; set; }
     }
 }

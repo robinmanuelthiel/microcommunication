@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: microcommunication
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: microcommunication.69a487f97ab94b36a988.westeurope.aksapp.io
+    http:
+      paths:
+      - path: /a
+        backend:
+          serviceName: api
+          servicePort: 8080
+      - path: /web
+        backend:
+          serviceName: web
+          servicePort: 80
