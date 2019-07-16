@@ -24,6 +24,16 @@ namespace MicroCommunication.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+            }).AddApiKeySupport(options =>
+            {
+                options.ApiKeyHeaderName = "api-key";
+                options.ApiKey = "";
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Enforce lowercase routes
@@ -66,6 +76,7 @@ namespace MicroCommunication.Api
                 app.UseHsts();
             }
 
+            //app.UseAuthentication();
             app.UseApiKey(c =>
             {
                 c.ApiKeyHeaderName = "api-key";
