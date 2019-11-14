@@ -9,9 +9,8 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 
 The project consists of
 
-- An API Backend, that exposes port `8080`
-- A Web Frontend, that exposes port `80`
-  - Connects to the API Backend for getting random numbers using the `RandomApiHost` environment variable
+- An API Backend, written in .NET Core, exposes port `8080`
+- A Web Frontend, written in .NET Core, exposes port `80`
 
 ## Make it run
 
@@ -23,6 +22,19 @@ The project consists of
 The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the _Launch Microservices_ Debug configuration.
 
 ![Screenshot of Visual Studio Code](assets/LaunchInVsCode.png)
+
+## Environment variables
+
+You need to set some environment variables to configure the services and their discovery.
+
+`MicroCommunication.Api`:
+
+- `ApiKey=test123` *The key, that the API allows for authorization*
+
+`MicroCommunication.Web`:
+
+- `RandomApiHost=http://localhost:8080/api/random` *Where to find the API*
+- `RandomApiKey=test123` *Which key to use when calling the API*
 
 ## Orchestrators
 
