@@ -1,12 +1,13 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: api-web
+  name: api
+  #namespace: ingress-basic
 #  annotations:
 #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 #    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "api-ingress-subnet"
 spec:
-  type: LoadBalancer
+  #type: LoadBalancer
   selector:
     app: api
   ports:

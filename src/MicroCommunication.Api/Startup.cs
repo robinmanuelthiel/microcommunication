@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using MicroCommunication.Api.Authentication;
+using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,8 @@ namespace MicroCommunication.Api
                 options.ApiKeyHeaderName = "api-key";
                 options.ApiKey = "";
             });
+
+            services.AddSingleton(new HistoryService(Configuration["MongoDb-ConnectionString"]));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

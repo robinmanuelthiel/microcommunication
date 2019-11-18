@@ -1,19 +1,25 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: microcommunication
+  name: hello-world-ingress
+  namespace: ingress-basic
   annotations:
-    kubernetes.io/ingress.class: addon-http-application-routing
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-  - host: microcommunication.69a487f97ab94b36a988.westeurope.aksapp.io
-    http:
+  - http:
       paths:
-      - path: /a
-        backend:
+      - backend:
+          serviceName: aks-helloworld
+          servicePort: 80
+        path: /
+      - backend:
           serviceName: api
           servicePort: 8080
-      - path: /web
-        backend:
-          serviceName: web
+        path: /end
+      - backend:
+          serviceName: ingress-demo
           servicePort: 80
+        path: /hello-world-two(/|$)(.*)
