@@ -20,7 +20,7 @@
     "MicroCommunication.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "/api/random",
+      "launchUrl": "/",
       "applicationUrl": "https://localhost:8081;http://localhost:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
