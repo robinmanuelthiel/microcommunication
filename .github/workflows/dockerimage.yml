@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1    
     - name: Build
-      run: docker build . --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest
+      run: docker build src/MicroCommunication.Api --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest
     - name: Login
       run: docker --username ${{ secrets.GITHUB_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
     - name: Push
