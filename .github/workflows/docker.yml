@@ -2,7 +2,7 @@ name: Build and push Docker images
 on:
   push:
     paths: 
-      - src
+      - src/**
 jobs:
   build:
     runs-on: ubuntu-latest
