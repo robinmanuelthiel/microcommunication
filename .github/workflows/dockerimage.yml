@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the API image
-      run: docker build . --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest
+    - uses: actions/checkout@v1    
+    - name: Docker Push
+      uses: opspresso/action-docker@v0.2.1
+      env:
+        USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        BUILD_PATH: src/MicroCommunication.Api/Dockerfile
+        TAG_NAME: $(date +%s)
+        LATEST: true
+        IMAGE_NAME: "robinmanuelthiel/microcommunication-api"
