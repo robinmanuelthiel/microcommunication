@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Login
+      run: docker login --username ${{ secrets.GITHUB_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
     - uses: actions/checkout@v1    
     - name: Build
-      run: docker build src/MicroCommunication.Api --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest
-    - name: Login
-      run: docker --username ${{ secrets.GITHUB_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
+      run: docker build src/MicroCommunication.Api --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest    
     - name: Push
       run: docker push robinmanuelthiel/microcommunication-api
