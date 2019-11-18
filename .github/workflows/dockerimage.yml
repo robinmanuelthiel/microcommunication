@@ -11,4 +11,4 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build the API image
-      run: docker build . --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api/:$(date +%s) --tag robinmanuelthiel/microcommunication-api/:latest
+      run: docker build . --file src/MicroCommunication.Api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest
