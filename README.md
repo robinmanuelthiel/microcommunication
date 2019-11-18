@@ -5,6 +5,9 @@
 [![Docker](https://img.shields.io/badge/Docker%20Hub-microcommunication--api-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-api/) [![Docker](https://img.shields.io/badge/Docker%20Hub-microcommunication--web-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
 [![Build Status](https://dev.azure.com/robinmanuelthiel/Microcommunication/_apis/build/status/Build%20and%20push?branchName=master)](https://dev.azure.com/robinmanuelthiel/Microcommunication/_build/latest?definitionId=9&branchName=master)
 
+[![Actions Status](https://github.com/robinmanuelthiel/microcommunication/workflows/{workflow_name}/badge.svg)](https://github.com/robinmanuelthiel/microcommunication/actions)
+
+
 This is a small demo project to quickly setup a mix of containerized micro-services that communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
 
 The project consists of
