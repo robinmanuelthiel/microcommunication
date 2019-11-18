@@ -26,11 +26,11 @@ namespace MicroCommunication.Api.Controllers
             var random = new Random();
             var value = random.Next(1, 7);
 
-            // Save to history
-            await historyService.SaveValueAsync(value);
-
             // Log the result
             Console.WriteLine($"The dice has been rolled: {value}");
+
+            // Save to history
+            await historyService.SaveValueAsync(value);
 
             // Return the result
             return Ok(value);
@@ -48,11 +48,11 @@ namespace MicroCommunication.Api.Controllers
             else
                 value = random.Next();
 
-            // Log the result
-            Console.WriteLine($"A random number has been generated: {value}");
-
             // Save to history
             await historyService.SaveValueAsync(value);
+
+            // Log the result
+            Console.WriteLine($"A random number has been generated: {value}");
 
             // Return the result
             return Ok(value);
