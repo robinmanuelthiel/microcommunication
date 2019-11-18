@@ -30,6 +30,7 @@ You need to set some environment variables to configure the services and their d
 `MicroCommunication.Api`:
 
 - `ApiKey=test123` *The key, that the API allows for authorization*
+- `MongoDb-ConnectionString=mongo://...` *Optional: The connection string for a Mongo DB to store the history in*
 
 `MicroCommunication.Web`:
 
