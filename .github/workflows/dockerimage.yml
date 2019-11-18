@@ -16,6 +16,6 @@ jobs:
         USERNAME: ${{ secrets.DOCKER_USERNAME }}
         PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         BUILD_PATH: src/MicroCommunication.Api/Dockerfile
-        TAG_NAME: "$(date +%s)"
+        TAG_NAME: "test"
         LATEST: true
         IMAGE_NAME: "robinmanuelthiel/microcommunication-api"
