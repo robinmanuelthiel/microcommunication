@@ -3,7 +3,7 @@
 # Micro-service Intercommunication Demo
 
 [![Docker](https://img.shields.io/badge/Docker%20Hub-microcommunication--api-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-api/) [![Docker](https://img.shields.io/badge/Docker%20Hub-microcommunication--web-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
-![GitHub Actions status](https://github.com/robinmanuelthiel/microcommunication/workflows/.github/workflows/docker.yml/badge.svg)
+![GitHub Actions status](https://github.com/robinmanuelthiel/microcommunication/workflows/.github/workflows/docker.yml/badge.svg) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=robinmanuelthiel_microcommunication&metric=alert_status)](https://sonarcloud.io/dashboard?id=robinmanuelthiel_microcommunication)
 
 This is a small demo project to quickly setup a mix of containerized micro-services that communicate with each other within the network. This demo is intended to provide a playground for orchestrators!
 
