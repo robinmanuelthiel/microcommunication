@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using MicroCommunication.Api.Authentication;
+using MicroCommunication.Api.Hubs;
 using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -38,6 +39,7 @@ namespace MicroCommunication.Api
             services.AddSingleton(new HistoryService(Configuration["MongoDb-ConnectionString"]));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR();
 
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -65,6 +67,17 @@ namespace MicroCommunication.Api
                     { "API Key", new string[] {} },
                 });
             });
+
+            // CORS
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    //.AllowAnyOrigin()
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +99,11 @@ namespace MicroCommunication.Api
                 c.ApiKey = Configuration["ApiKey"];
             });
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<EchoHub>("/echo");
+            });
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
