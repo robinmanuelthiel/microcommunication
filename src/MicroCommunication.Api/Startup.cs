@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using MicroCommunication.Api.Authentication;
+using MicroCommunication.Api.Hubs;
 using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using RandomNameGeneratorLibrary;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace MicroCommunication.Api
@@ -37,7 +39,14 @@ namespace MicroCommunication.Api
 
             services.AddSingleton(new HistoryService(Configuration["MongoDb-ConnectionString"]));
 
+            // Create random name (for testing session affinity)
+            var personGenerator = new PersonNameGenerator();
+            var name = personGenerator.GenerateRandomFirstName();
+            Configuration["RandomName"] = name;
+            Console.WriteLine("My name is " + Configuration["RandomName"]);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR();
 
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -47,9 +56,9 @@ namespace MicroCommunication.Api
             {
                 c.SwaggerDoc("1.0", new Info
                 {
-                    Title = "Random API",
+                    Title = "Random API ",
                     Version = "1.0",
-                    Description = "An API for generating random numbers"
+                    Description = "An API for generating random numbers.\n\nMy name is " + Configuration["RandomName"]
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -65,6 +74,17 @@ namespace MicroCommunication.Api
                     { "API Key", new string[] {} },
                 });
             });
+
+            // CORS
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    //.AllowAnyOrigin()
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -86,6 +106,11 @@ namespace MicroCommunication.Api
                 c.ApiKey = Configuration["ApiKey"];
             });
             app.UseHttpsRedirection();
+            app.UseCors("CorsPolicy");
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<EchoHub>("/echo");
+            });
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

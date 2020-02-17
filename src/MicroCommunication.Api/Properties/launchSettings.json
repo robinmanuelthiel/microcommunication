@@ -12,12 +12,12 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "/api/random",
+      "launchUrl": "/",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MicroCommunication.Api": {
+    "MicroCommunication.Api": { 
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "/",
