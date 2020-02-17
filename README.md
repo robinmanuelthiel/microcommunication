@@ -10,13 +10,14 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 The project consists of
 
 - An API Backend, written in .NET Core, exposes port `8080`
-- A Web Frontend, written in .NET Core, exposes port `80`
+- A Web Frontend, written in Angular, exposes port `80`
 
 ## Make it run
 
 ### Prerequisites
 
 - [.NET Core 2 SDK](https://dotnet.microsoft.com/download)
+- [Angular CLI](https://cli.angular.io/)
 - [Docker](https://www.docker.com/products/docker-desktop)
 
 The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the _Launch Microservices_ Debug configuration.
@@ -34,8 +35,8 @@ You need to set some environment variables to configure the services and their d
 
 `MicroCommunication.Web`:
 
-- `RandomApiHost=http://localhost:8080/api/random` *Where to find the API*
-- `RandomApiKey=test123` *Which key to use when calling the API*
+- `API_URL=http://localhost:8080/api/random` *Where to find the API*
+- `API_KEY=test123` *Which key to use when calling the API*
 
 ## Orchestrators
 
