@@ -26,6 +26,10 @@ namespace MicroCommunication.Api.Authentication
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
+            var identity = new ClaimsIdentity();
+            var principal = new ClaimsPrincipal(identity);
+            var ticket = new AuthenticationTicket(principal, Options.Scheme);
+
             if (!Request.Headers.TryGetValue(apiKeyHeaderName, out var apiKeyHeaderValues))
             {
                 return Task.FromResult(AuthenticateResult.Fail($"API Key is missing. Please add an '{apiKeyHeaderName}' header"));
@@ -39,9 +43,6 @@ namespace MicroCommunication.Api.Authentication
 
             if (providedApiKey.Equals(apiKey))
             {
-                var identity = new ClaimsIdentity();
-                var principal = new ClaimsPrincipal(identity);
-                var ticket = new AuthenticationTicket(principal, Options.Scheme);
                 return Task.FromResult(AuthenticateResult.Success(ticket));
             }
             else

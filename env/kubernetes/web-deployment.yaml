@@ -18,9 +18,9 @@ spec:
         - name: microcommunication-web
           image: robinmanuelthiel/microcommunication-web:1.0.569
           env:
-          - name: RandomApiHost
-            value: "http://api:8080/api/random"
-          - name: RandomApiKey
+          - name: API_URL
+            value: "http://api:8080"
+          - name: API_KEY
             valueFrom:
               secretKeyRef:
                 name: microcommunication

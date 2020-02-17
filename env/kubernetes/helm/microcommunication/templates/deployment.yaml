@@ -57,9 +57,9 @@ spec:
         - name: microcommunication-web
           image: robinmanuelthiel/microcommunication-web:{{ .Values.webImageTag }}
           env:
-          - name: RandomApiHost
-            value: "http://api:8080/api/random"
-          - name: RandomApiKey
+          - name: API_URL
+            value: "http://api:8080"
+          - name: API_KEY
             value: ""
           ports:
           - containerPort: 80

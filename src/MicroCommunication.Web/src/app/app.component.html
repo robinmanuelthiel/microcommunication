@@ -1,0 +1,28 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Micro Communication</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Dice</a>
+      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li> -->
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row mt-5 d-flex flex-column align-items-center">
+    <img class="mx-auto" src="{{ imagePath }}" alt=" dice" height="300" />
+    <button type="button" class="btn mt-4 btn-primary" (click)="rollDiceAsync()">Roll the dice</button>
+    <div *ngIf="isError" class="alert mt-4 alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+# General
+Dockerfile
+.dockerignore
+.DS_Store
+*.md
+**/bin
+**/obj
+**/*.Development.json
