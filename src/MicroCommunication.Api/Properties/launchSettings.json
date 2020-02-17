@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MicroCommunication.Api": {
+    "MicroCommunication.Api": { 
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "/",
