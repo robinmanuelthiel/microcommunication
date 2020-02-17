@@ -19,8 +19,7 @@ namespace MicroCommunication.Api.Controllers
 
         // GET api/values
         [HttpGet]
-        [Route("dice")]
-        public async Task<ActionResult<string>> Get()
+        public ActionResult<string> Get()
         {
             return Ok(configuration["RandomName"]);
         }

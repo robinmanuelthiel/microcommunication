@@ -1,35 +1,30 @@
 #######################################################
 # Step 1: Build the application in a container        #
 #######################################################
-# Download the official ASP.NET Core SDK image
-# to build the project while creating the docker image
-FROM mcr.microsoft.com/dotnet/core/sdk:2.2 as build
+FROM node:12-alpine as build
 WORKDIR /app
 
-# Restore NuGet packages
-COPY *.csproj .
-RUN dotnet restore
+# Resore NPM packages
+COPY package.json package-lock.json ./
+RUN npm install
 
 # Copy the rest of the files over
 COPY . .
 
 # Build the application
-RUN dotnet publish --output /out/ --configuration Debug
+RUN npm install -g @angular/cli
+RUN ng build --configuration production --output-path=/dist
 
 #######################################################
 # Step 2: Run the build outcome in a container        #
 #######################################################
-# Download the official ASP.NET Core Runtime image
-# to run the compiled application
-FROM mcr.microsoft.com/dotnet/core/aspnet:2.2
-WORKDIR /app
+FROM nginx:alpine
 
-# Open ports
-EXPOSE 80
-EXPOSE 443
+# Copy the build outputs over to this container
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy the build output from the SDK image
-COPY --from=build /out .
+# Copy the NGINX config over
+COPY --from=build /dist /usr/share/nginx/html
 
-# Start the application
-ENTRYPOINT ["dotnet", "MicroCommunication.Web.dll"]
+# Start NGINX as webserver
+CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js && exec nginx -g 'daemon off;'"]

@@ -17,9 +17,13 @@ namespace MicroCommunication.Api
 {
     public class Startup
     {
+        readonly bool useApiKey;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            useApiKey = !string.IsNullOrEmpty(configuration["ApiKey"]);
+            Console.WriteLine("Using API Key: " + useApiKey);
         }
 
         public IConfiguration Configuration { get; }
@@ -27,29 +31,32 @@ namespace MicroCommunication.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(options =>
+            if (useApiKey)
             {
-                options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
-                options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
-            }).AddApiKeySupport(options =>
-            {
-                options.ApiKeyHeaderName = "api-key";
-                options.ApiKey = "";
-            });
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                    options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
+                }).AddApiKeySupport(options =>
+                {
+                    options.ApiKeyHeaderName = "api-key";
+                    options.ApiKey = "";
+                });
+            }
 
-            services.AddSingleton(new HistoryService(Configuration["MongoDb-ConnectionString"]));
+            services.AddSingleton(new HistoryService(Configuration["MongoDbConnectionString"]));
 
-            // Create random name (for testing session affinity)
+            // Create random name for testing session affinity
             var personGenerator = new PersonNameGenerator();
             var name = personGenerator.GenerateRandomFirstName();
             Configuration["RandomName"] = name;
             Console.WriteLine("My name is " + Configuration["RandomName"]);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSignalR();
-
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR();
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -58,33 +65,39 @@ namespace MicroCommunication.Api
                 {
                     Title = "Random API ",
                     Version = "1.0",
-                    Description = "An API for generating random numbers.\n\nMy name is " + Configuration["RandomName"]
+                    Description = $"An API for generating random numbers.\nMy name is {Configuration["RandomName"]}."
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.AddSecurityDefinition("API Key", new ApiKeyScheme
+
+                if (useApiKey)
                 {
-                    Description = "Add the key to access this API to the HTTP header of your requests.",
-                    Name = "api-key",
-                    In = "header",
-                    Type = "apiKey"
-                });
-                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
+                    c.AddSecurityDefinition("API Key", new ApiKeyScheme
+                    {
+                        Description = "Add the key to access this API to the HTTP header of your requests.",
+                        Name = "api-key",
+                        In = "header",
+                        Type = "apiKey"
+                    });
+                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
                 {
                     { "API Key", new string[] {} },
                 });
+                }
             });
 
             // CORS
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
                 builder
-                    //.AllowAnyOrigin()
-                    .WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    //.WithOrigins("http://localhost:4200")
+                    .WithMethods("GET", "POST")
                     .AllowAnyHeader()
                     .AllowCredentials();
             }));
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,13 +112,18 @@ namespace MicroCommunication.Api
                 app.UseHsts();
             }
 
+            //app.UseHttpsRedirection();
+
             //app.UseAuthentication();
-            app.UseApiKey(c =>
+            if (useApiKey)
             {
-                c.ApiKeyHeaderName = "api-key";
-                c.ApiKey = Configuration["ApiKey"];
-            });
-            app.UseHttpsRedirection();
+                app.UseApiKey(c =>
+                {
+                    c.ApiKeyHeaderName = "api-key";
+                    c.ApiKey = Configuration["ApiKey"];
+                });
+            }
+
             app.UseCors("CorsPolicy");
             app.UseSignalR(routes =>
             {

@@ -10,14 +10,23 @@ export class AppComponent implements OnInit {
   title = 'MicroCommunication-Web';
   dice = 6;
   imagePath = 'assets/images/dice-' + this.dice + '.svg';
+  isError = false;
+  errorMessage: string;
 
   constructor(private randomService: RandomService) { }
 
   async ngOnInit() {
-    this.dice = await this.randomService.getRandomDice();
+    await this.rollDiceAsync();
   }
 
   async rollDiceAsync(): Promise<void> {
-    this.dice = await this.randomService.getRandomDice();
+    try {
+      this.isError = false;
+      this.dice = await this.randomService.getRandomDice();
+      this.imagePath = 'assets/images/dice-' + this.dice + '.svg';
+    } catch (error) {
+      this.isError = true;
+      this.errorMessage = error.message;
+    }
   }
 }
