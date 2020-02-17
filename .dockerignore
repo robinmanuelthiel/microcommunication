@@ -1,12 +1,17 @@
+# General
+# Ignore everything except /src and /library folders
+*
+!src
+**/Dockerfile
 .dockerignore
-.env
-.git
-.gitignore
-.vs
-.vscode
-docker-compose.yml
-docker-compose.*.yml
-servicefabric-mesh.json
-kubernetes.yml
-*/bin
-*/obj
+.DS_Store
+*.md
+
+# .NET Core
+**/bin
+**/obj
+**/*.Development.json
+
+# Angular
+**/node_modules
+**/dist
