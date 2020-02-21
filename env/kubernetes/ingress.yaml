@@ -1,25 +1,60 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: your@mail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: your@mail.com
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: hello-world-ingress
-  namespace: ingress-basic
+  name: microcommunication
   annotations:
     kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/affinity: cookie
+    cert-manager.io/issuer: letsencrypt-prod
 spec:
+  tls:
+    - hosts:
+        - api.your.domain.com
+        - app.your.domain.com
+      secretName: your.domain.com
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: aks-helloworld
-          servicePort: 80
-        path: /
-      - backend:
-          serviceName: api
-          servicePort: 8080
-        path: /end
-      - backend:
-          serviceName: ingress-demo
-          servicePort: 80
-        path: /hello-world-two(/|$)(.*)
+    - host: api.your.domain.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: api
+              servicePort: 8080
+    - host: app.your.domain.com
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: web
+              servicePort: 80

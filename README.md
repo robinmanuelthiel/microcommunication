@@ -30,7 +30,7 @@ You need to set some environment variables to configure the services and their d
 
 `MicroCommunication.Api`:
 
-- `ApiKey=test123` *The key, that the API allows for authorization*
+- `ApiKey=test123` *Optional: The key, that the API allows for authorization*
 - `MongoDbConnectionString=mongo://...` *Optional: The connection string for a Mongo DB to store the history in*
 - `RedisCacheConnectionString=...` *Optional: The connection string for a Redis Cache to sync SignalR Hubs*
 - `Cors` *Optional: The domain of your web app to add to the CORS*
@@ -55,7 +55,7 @@ docker-compose -f env/docker-compose/docker-compose.yaml up
 ### Kubernetes
 
 ```bash
-kubectl create -f env/kubernetes/kubernetes.yml
+kubectl create -f env/kubernetes/microcommunication.yaml
 ```
 
 ### Service Fabric Mesh
