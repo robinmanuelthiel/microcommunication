@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row my-3">
+    <div class="col-12">
+      <p class="h2">Chat</p>
+      <small class="text-muted">Connected to server: {{ serverName }}</small>
+    </div>
+  </div>
+
+  <div class="row flex-grow-1">
+    <div class="col-12">
+      <div *ngFor="let message of messages" class="alert alert-dark" role="alert">
+        <p class="lead my-0 py-0">
+          {{ message.text }}
+        </p>
+        <small class="text-muted">from server: {{ message.server }}</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="input-group col-12">
+      <input #text type="text" class="form-control" placeholder="Type your message" aria-label="Type your message"
+        (keyup.enter)=sendMessage(text.value)>
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button" (click)="sendMessage(text.value)">Send</button>
+      </div>
+    </div>
+  </div>
+</div>

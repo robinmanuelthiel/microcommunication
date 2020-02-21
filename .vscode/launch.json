@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build-api",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MicroCommunication.Api/bin/Debug/netcoreapp2.1/MicroCommunication.Api.dll",
+            "program": "${workspaceFolder}/src/MicroCommunication.Api/bin/Debug/netcoreapp2.2/MicroCommunication.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MicroCommunication.Api",
             "stopAtEntry": false,
@@ -18,38 +18,6 @@
             "launchBrowser": {
                 "enabled": true,
                 "args": "${auto-detect-url}/api/random/dice",
-                "windows": {
-                    "command": "cmd.exe",
-                    "args": "/C start ${auto-detect-url}"
-                },
-                "osx": {
-                    "command": "open"
-                },
-                "linux": {
-                    "command": "xdg-open"
-                }
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/src/Views"
-            }
-        },
-        {
-            "name": "Launch Web",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build-web",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MicroCommunication.Web/bin/Debug/netcoreapp2.1/MicroCommunication.Web.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/MicroCommunication.Web",
-            "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart",
-            "launchBrowser": {
-                "enabled": true,
-                "args": "${auto-detect-url}",
                 "windows": {
                     "command": "cmd.exe",
                     "args": "/C start ${auto-detect-url}"

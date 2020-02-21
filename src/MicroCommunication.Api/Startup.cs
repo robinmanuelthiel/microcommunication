@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using RandomNameGeneratorLibrary;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace MicroCommunication.Api
 {
@@ -55,13 +55,20 @@ namespace MicroCommunication.Api
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddSignalR();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            // Add SignalR
+            var signalR = services.AddSignalR();
+            if (!string.IsNullOrEmpty(Configuration["RedisCacheConnectionString"]))
+            {
+                signalR.AddRedis(Configuration["RedisCacheConnectionString"]);
+            }
+
 
             // Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("1.0", new Info
+                c.SwaggerDoc("1.0", new OpenApiInfo
                 {
                     Title = "Random API ",
                     Version = "1.0",
@@ -69,20 +76,30 @@ namespace MicroCommunication.Api
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
                 if (useApiKey)
                 {
-                    c.AddSecurityDefinition("API Key", new ApiKeyScheme
+                    c.AddSecurityDefinition("API Key", new OpenApiSecurityScheme
                     {
                         Description = "Add the key to access this API to the HTTP header of your requests.",
                         Name = "api-key",
-                        In = "header",
-                        Type = "apiKey"
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.ApiKey
                     });
-                    c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                {
-                    { "API Key", new string[] {} },
-                });
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "API Key",
+                                    Type = ReferenceType.SecurityScheme
+                                }
+                            }, new List<string>()
+                        }
+                    });
                 }
             });
 
@@ -90,15 +107,16 @@ namespace MicroCommunication.Api
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
                 builder
-                    .AllowAnyOrigin()
-                    //.WithOrigins("http://localhost:4200")
-                    .WithMethods("GET", "POST")
+                    .WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();
+
+                if (!string.IsNullOrEmpty(Configuration["Cors"]))
+                    builder.WithOrigins(Configuration["Cors"]);
             }));
-
-
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -127,7 +145,7 @@ namespace MicroCommunication.Api
             app.UseCors("CorsPolicy");
             app.UseSignalR(routes =>
             {
-                routes.MapHub<EchoHub>("/echo");
+                routes.MapHub<ChatHub>("/chat");
             });
             app.UseMvc();
             app.UseSwagger();

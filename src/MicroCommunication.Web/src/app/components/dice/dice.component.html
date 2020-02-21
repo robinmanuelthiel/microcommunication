@@ -1,0 +1,9 @@
+<div class="container">
+  <div class="row mt-5 d-flex flex-column align-items-center">
+    <img class="mx-auto" src="{{ imagePath }}" alt=" dice" height="300" />
+    <button type="button" class="btn mt-4 btn-primary" (click)="rollDiceAsync()">Roll the dice</button>
+    <div *ngIf="isError" class="alert mt-4 alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>
