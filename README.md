@@ -31,11 +31,13 @@ You need to set some environment variables to configure the services and their d
 `MicroCommunication.Api`:
 
 - `ApiKey=test123` *The key, that the API allows for authorization*
-- `MongoDb-ConnectionString=mongo://...` *Optional: The connection string for a Mongo DB to store the history in*
+- `MongoDbConnectionString=mongo://...` *Optional: The connection string for a Mongo DB to store the history in*
+- `RedisCacheConnectionString=...` *Optional: The connection string for a Redis Cache to sync SignalR Hubs*
+- `Cors` *Optional: The domain of your web app to add to the CORS*
 
 `MicroCommunication.Web`:
 
-- `API_URL=http://localhost:8080/api/random` *Where to find the API*
+- `API_URL=http://localhost:8080` *Where to find the API*
 - `API_KEY=test123` *Which key to use when calling the API*
 
 ## Orchestrators
