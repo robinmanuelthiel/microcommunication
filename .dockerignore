@@ -3,6 +3,12 @@ Dockerfile
 .dockerignore
 .DS_Store
 *.md
+
+# .NET Core
 **/bin
 **/obj
 **/*.Development.json
+
+# Angular
+**/node_modules
+**/dist

@@ -1,15 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using MicroCommunication.Api.Authentication;
 using MicroCommunication.Api.Hubs;
 using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using RandomNameGeneratorLibrary;
 
@@ -17,6 +22,7 @@ namespace MicroCommunication.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
         readonly bool useApiKey;
 
         public Startup(IConfiguration configuration)
@@ -25,8 +31,6 @@ namespace MicroCommunication.Api
             useApiKey = !string.IsNullOrEmpty(configuration["ApiKey"]);
             Console.WriteLine("Using API Key: " + useApiKey);
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -55,15 +59,12 @@ namespace MicroCommunication.Api
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            // Add SignalR
+            services.AddControllers();
             var signalR = services.AddSignalR();
             if (!string.IsNullOrEmpty(Configuration["RedisCacheConnectionString"]))
             {
-                signalR.AddRedis(Configuration["RedisCacheConnectionString"]);
+                signalR.AddStackExchangeRedis(Configuration["RedisCacheConnectionString"]);
             }
-
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -117,22 +118,14 @@ namespace MicroCommunication.Api
             }));
         }
 
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            //app.UseHttpsRedirection();
-
-            //app.UseAuthentication();
             if (useApiKey)
             {
                 app.UseApiKey(c =>
@@ -142,12 +135,18 @@ namespace MicroCommunication.Api
                 });
             }
 
+            app.UseRouting();
+
             app.UseCors("CorsPolicy");
-            app.UseSignalR(routes =>
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<ChatHub>("/chat");
+                endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
-            app.UseMvc();
+
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

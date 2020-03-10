@@ -5,12 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Docker .NET Core Attach (Preview)",
+            "type": "docker",
+            "request": "attach",
+            "platform": "netCore",
+            "sourceFileMap": {
+                "/src": "${workspaceFolder}/src/Microcommunication/Api"
+            }
+        },
+        {
             "name": "Launch API",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-api",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MicroCommunication.Api/bin/Debug/netcoreapp2.2/MicroCommunication.Api.dll",
+            "program": "${workspaceFolder}/src/MicroCommunication.Api/bin/Debug/netcoreapp3.1/MicroCommunication.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/MicroCommunication.Api",
             "stopAtEntry": false,
@@ -31,19 +40,7 @@
             },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/src/Views"
             }
-        }
-    ],
-    "compounds": [
-        {
-            "name": "Launch Microservices",
-            "configurations": [
-                "Launch API",
-                "Launch Web"
-            ]
         }
     ]
 }

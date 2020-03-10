@@ -10,16 +10,6 @@
                 "${workspaceFolder}/src/MicroCommunication.Api/MicroCommunication.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "build-web",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "build",
-                "${workspaceFolder}/src/MicroCommunication.Web/MicroCommunication.Web.csproj"
-            ],
-            "problemMatcher": "$msCompile"
         }
     ]
 }
