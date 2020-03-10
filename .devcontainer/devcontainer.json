@@ -9,7 +9,7 @@
 	},
 	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
-		"ms-vscode.csharp"
+		"ms-dotnettools.csharp"
 	],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [
