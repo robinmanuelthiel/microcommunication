@@ -5,16 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Docker .NET Core Attach (Preview)",
-            "type": "docker",
-            "request": "attach",
-            "platform": "netCore",
-            "sourceFileMap": {
-                "/src": "${workspaceFolder}/src/Microcommunication/Api"
-            }
-        },
-        {
-            "name": "Launch API",
+            "name": "API",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build-api",
@@ -26,7 +17,7 @@
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
                 "enabled": true,
-                "args": "${auto-detect-url}/api/random/dice",
+                "args": "${auto-detect-url}",
                 "windows": {
                     "command": "cmd.exe",
                     "args": "/C start ${auto-detect-url}"
