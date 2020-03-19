@@ -28,9 +28,10 @@ COPY --from=build /dist /usr/share/nginx/html
 
 # Create a new user, who has the rights to modify /usr/share/nginx/htm
 # This is needed for the next step, where the user modifies appsettings.js
-#RUN adduser -D -u 1000 node
-#RUN chmod -R 755 /usr/share/nginx/html
-RUN chown -R root /usr/share/nginx/html
+RUN whoami
+#RUN adduser -D -u 1000 node root
+#RUN chmod -R 755 /usr/share/nginx/html /var/cache/nginx
+RUN chown -R $(whoami) /usr/share/nginx/html
 #USER 1000
 
 # Start NGINX as webserver and replace placeholders in appsettings.template.js with environment variables
