@@ -26,5 +26,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copy the NGINX config over
 COPY --from=build /dist /usr/share/nginx/html
 
-# Start NGINX as webserver
+# Create a new user, who has the rights to modify /usr/share/nginx/htm
+# This is needed for the next step, where the user modifies appsettings.js
+#RUN adduser -D -u 1000 node
+#RUN chmod -R 755 /usr/share/nginx/html
+RUN chown -R root /usr/share/nginx/html
+#USER 1000
+
+# Start NGINX as webserver and replace placeholders in appsettings.template.js with environment variables
 CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js && exec nginx -g 'daemon off;'"]

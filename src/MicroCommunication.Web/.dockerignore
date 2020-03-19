@@ -1,0 +1,7 @@
+# General
+Dockerfile
+.DS_Store
+
+# Angular
+**/node_modules
+**/dist
