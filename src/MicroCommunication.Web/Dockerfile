@@ -32,9 +32,8 @@ RUN touch /var/run/nginx.pid && \
   chown -R node:root /run /var/run/nginx.pid /var/cache/nginx /usr/share/nginx/html
 
 # Create startup script to replace placeholders in appsettings.template.js with environment variables and run NGINX
-RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js" > run.sh && \
-  echo "nginx -g 'daemon off;'" >> run.sh
-RUN cat run.sh
+# RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js" > run.sh && \
+RUN echo "nginx -g 'daemon off;'" >> run.sh
 
 # Switch to new user
 USER node
