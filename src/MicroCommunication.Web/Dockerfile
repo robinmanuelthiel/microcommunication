@@ -26,14 +26,17 @@ COPY nginx.conf /etc/nginx/nginx.conf
 # Copy the NGINX config over
 COPY --from=build /dist /usr/share/nginx/html
 
-# Create a new user, who has the rights to modify /usr/share/nginx/htm
-# This is needed for the next step, where the user modifies appsettings.js
-#RUN whoami
-#RUN adduser -D -u 1000 node root
-#RUN chmod -R 755 /usr/share/nginx/html /var/cache/nginx
-#RUN chown -R $(whoami) /usr/share/nginx/html
-RUN chmod 777 /usr/share/nginx/html
-#USER 1000
+# Create a new user, who has the rights to modify NGINX files, to allow the container to also run as non-root
+RUN adduser -D node root
+RUN touch /var/run/nginx.pid && \
+  chown -R node:root /run /var/run/nginx.pid /var/cache/nginx /usr/share/nginx/html
 
-# Start NGINX as webserver and replace placeholders in appsettings.template.js with environment variables
-CMD ["/bin/sh",  "-c",  "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js && exec nginx -g 'daemon off;'"]
+# Create startup script to replace placeholders in appsettings.template.js with environment variables and run NGINX
+RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js" > run.sh && \
+  echo "nginx -g 'daemon off;'" >> run.sh
+RUN cat run.sh
+
+# Switch to new user
+USER node
+
+CMD ["/bin/sh", "run.sh"]
