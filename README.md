@@ -11,17 +11,17 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 The project consists of
 
 - An API Backend, written in .NET Core, exposes port `8080`
-- A Web Frontend, written in Angular, exposes port `80`
+- A Web Frontend, written in Angular, exposes port `8080`
 
 ## Make it run
 
 ### Prerequisites
 
-- [.NET Core 2 SDK](https://dotnet.microsoft.com/download)
+- [.NET Core 3.1 SDK](https://dotnet.microsoft.com/download)
 - [Angular CLI](https://cli.angular.io/)
 - [Docker](https://www.docker.com/products/docker-desktop)
 
-The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select the _Launch Microservices_ Debug configuration.
+The easiest way to run and debug the microservices on you development machine is [Visual Studio Code](https://code.visualstudio.com/). Just open the folder and select one of the Debug configurations.
 
 ![Screenshot of Visual Studio Code](assets/LaunchInVsCode.png)
 
@@ -44,8 +44,6 @@ You need to set some environment variables to configure the services and their d
 ## Orchestrators
 
 This Demo project is intended to be tested within container orchestrators. For the various different orchestrators out there, you can find configuration files for multiple different ones in the repository.
-
-> **Windows Containers:** If you want to run on Windows, feel free to use the Windows versions of these containers instead by using the `*.windows.*` files, where available.
 
 ### Docker Compose
 

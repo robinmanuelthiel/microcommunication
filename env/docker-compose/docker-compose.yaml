@@ -2,7 +2,6 @@ version: '3.6'
 
 services:
   api:
-    image: robinmanuelthiel/microcommunication-api:latest
     build:
       context: ../../src/MicroCommunication.Api
       dockerfile: Dockerfile
@@ -11,12 +10,11 @@ services:
     environment:
       - ApiKey=
   web:
-    image: robinmanuelthiel/microcommunication-web:latest
     build:
       context: ../../src/MicroCommunication.Web
       dockerfile: Dockerfile
     ports:
-      - '5000:80'
+      - '5000:8080'
     environment:
       - API_URL=http://localhost:8080
       - API_KEY=
