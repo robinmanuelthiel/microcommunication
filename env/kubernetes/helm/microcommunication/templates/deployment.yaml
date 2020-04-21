@@ -3,11 +3,14 @@
 #######################################################
 
 kind: Deployment
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 metadata:
-  name: microcommunication-api-deployment
+  name: api
 spec:
   replicas: 3
+  selector:
+    matchLabels:
+      app: api
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,8 +22,9 @@ spec:
         app: api
     spec:
       containers:
-        - name: microcommunication-api
+        - name: api
           image: robinmanuelthiel/microcommunication-api:{{ .Values.apiImageTag }}
+          imagePullPolicy: Always
           ports:
           - containerPort: 8080
           resources:
@@ -38,11 +42,14 @@ spec:
 #######################################################
 
 kind: Deployment
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 metadata:
-  name: microcommunication-web-deployment
+  name: web
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: web
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -54,15 +61,16 @@ spec:
         app: web
     spec:
       containers:
-        - name: microcommunication-web
+        - name: web
           image: robinmanuelthiel/microcommunication-web:{{ .Values.webImageTag }}
+          imagePullPolicy: Always
           env:
           - name: API_URL
             value: "http://api:8080"
           - name: API_KEY
             value: ""
           ports:
-          - containerPort: 80
+          - containerPort: 8080
           resources:
             requests:
               memory: "64Mi"

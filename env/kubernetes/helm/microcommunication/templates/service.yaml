@@ -5,7 +5,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: microcommunication-api-service
+  name: api
 #  annotations:
 #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 #    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "api-ingress-subnet"
@@ -27,11 +27,12 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: microcommunication-web-service
+  name: web
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: web
   ports:
-  - name: http
-    port: 80
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
