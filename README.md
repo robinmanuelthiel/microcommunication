@@ -41,20 +41,20 @@ You need to set some environment variables to configure the services and their d
 - `API_URL=http://localhost:8080` *Where to find the API*
 - `API_KEY=test123` *Which key to use when calling the API*
 
-## Orchestrators
+## Deploy
 
 This Demo project is intended to be tested within container orchestrators. For the various different orchestrators out there, you can find configuration files for multiple different ones in the repository.
-
-### Docker Compose
-
-```bash
-docker-compose -f env/docker-compose/docker-compose.yaml up
-```
 
 ### Kubernetes
 
 ```bash
 kubectl create -f env/kubernetes/microcommunication.yaml
+```
+
+### Docker Compose
+
+```bash
+docker-compose -f env/docker-compose/docker-compose.yaml up
 ```
 
 ### Service Fabric Mesh
