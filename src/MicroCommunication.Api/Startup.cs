@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Prometheus;
 using RandomNameGeneratorLibrary;
 
 namespace MicroCommunication.Api
@@ -60,11 +61,11 @@ namespace MicroCommunication.Api
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllers();
+
+            // SignalR
             var signalR = services.AddSignalR();
             if (!string.IsNullOrEmpty(Configuration["RedisCacheConnectionString"]))
-            {
                 signalR.AddStackExchangeRedis(Configuration["RedisCacheConnectionString"]);
-            }
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -143,6 +144,9 @@ namespace MicroCommunication.Api
 
             app.UseEndpoints(endpoints =>
             {
+                // Add Prometheus server
+                endpoints.MapMetrics();
+
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
             });

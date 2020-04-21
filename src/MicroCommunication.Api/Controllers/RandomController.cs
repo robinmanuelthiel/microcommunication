@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Prometheus;
 
 namespace MicroCommunication.Api.Controllers
 {
@@ -11,10 +12,16 @@ namespace MicroCommunication.Api.Controllers
     public class RandomController : ControllerBase
     {
         readonly HistoryService historyService;
+        readonly Counter diceCounter;
+        readonly Counter randomCounter;
 
         public RandomController(HistoryService historyService)
         {
             this.historyService = historyService;
+
+            // Custom Prometheus metrics
+            diceCounter = Metrics.CreateCounter("dice_rolled", "Indicates, how often the dice has been rolled.");
+            randomCounter = Metrics.CreateCounter("random_number_generated", "Indicates, how often a random number has been generated.");
         }
 
         // GET api/values
@@ -28,6 +35,7 @@ namespace MicroCommunication.Api.Controllers
 
             // Log the result
             Console.WriteLine($"The dice has been rolled: {value}");
+            diceCounter.Inc();
 
             // Save to history
             await historyService.SaveValueAsync(value);
@@ -48,11 +56,12 @@ namespace MicroCommunication.Api.Controllers
             else
                 value = random.Next();
 
-            // Save to history
-            await historyService.SaveValueAsync(value);
-
             // Log the result
             Console.WriteLine($"A random number has been generated: {value}");
+            randomCounter.Inc();
+
+            // Save to history
+            await historyService.SaveValueAsync(value);
 
             // Return the result
             return Ok(value);
