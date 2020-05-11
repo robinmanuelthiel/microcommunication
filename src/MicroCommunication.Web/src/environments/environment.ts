@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: window['env']['apiUrl'],
-  apiKey: window['env']['apiKey']
+  apiKey: window['env']['apiKey'],
+  applicationInsightsInstrumentationKey: window['env']['applicationInsightsInstrumentationKey']
 };
 
 /*

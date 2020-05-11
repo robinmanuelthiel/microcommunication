@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { RandomService } from './services/random.service';
+import { Component } from '@angular/core';
+import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,22 @@ import { RandomService } from './services/random.service';
 })
 export class AppComponent {
   title = 'MicroCommunication-Web';
+  appInsights: ApplicationInsights;
 
-  constructor() { }
+  constructor() {
+    if (environment.applicationInsightsInstrumentationKey) {
+      // Initialize Application Insights
+      this.appInsights = new ApplicationInsights({
+        config: {
+          instrumentationKey: environment.applicationInsightsInstrumentationKey,
+          extensions: [],
+          enableAutoRouteTracking: true
+        }
+      });
+      this.appInsights.loadAppInsights();
+
+      // Log a Demo Event
+      this.appInsights.trackEvent({ name: 'Web Frontend Loaded (Test Event)'});
+    }
+  }
 }

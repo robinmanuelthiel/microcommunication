@@ -31,15 +31,17 @@ You need to set some environment variables to configure the services and their d
 
 `MicroCommunication.Api`:
 
-- `ApiKey=test123` *Optional: The key, that the API allows for authorization*
-- `MongoDbConnectionString=mongo://...` *Optional: The connection string for a Mongo DB to store the history in*
-- `RedisCacheConnectionString=...` *Optional: The connection string for a Redis Cache to sync SignalR Hubs*
-- `Cors` *Optional: The domain of your web app to add to the CORS*
+- `ApiKey=test123` _Optional: The key, that the API allows for authorization_
+- `MongoDbConnectionString=mongo://...` _Optional: The connection string for a Mongo DB to store the history in_
+- `RedisCacheConnectionString=...` _Optional: The connection string for a Redis Cache to sync SignalR Hubs_
+- `ApplicationInsightsInstrumentationKey=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `Cors` _Optional: The domain of your web app to add to the CORS_
 
 `MicroCommunication.Web`:
 
-- `API_URL=http://localhost:8080` *Where to find the API*
-- `API_KEY=test123` *Which key to use when calling the API*
+- `API_URL=http://localhost:8080` _Where to find the API_
+- `API_KEY=test123` _Which key to use when calling the API_
+- `APPLICATION_INSIGHTS_INSTRUMENTATION_KEY=...` _Optional: The Azure Application Insights Instrumentation Key_
 
 ## Deploy
 

@@ -51,6 +51,10 @@ namespace MicroCommunication.Api
 
             services.AddSingleton(new HistoryService(Configuration["MongoDbConnectionString"]));
 
+            // Logging
+            if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsInstrumentationKey"]))
+                services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightsInstrumentationKey"]);
+
             // Create random name for testing session affinity
             var personGenerator = new PersonNameGenerator();
             var name = personGenerator.GenerateRandomFirstName();
