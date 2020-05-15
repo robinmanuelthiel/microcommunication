@@ -4,9 +4,7 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroCommunication.Api", "src\MicroCommunication.Api\MicroCommunication.Api.csproj", "{DA4B2ACC-4BA2-42F7-A631-61551B927263}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroCommunication.Api.Tests", "src\MicroCommunication.Api.Tests\MicroCommunication.Api.Tests.csproj", "{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroCommunication.Web", "src\MicroCommunication.Web\MicroCommunication.Web.csproj", "{01AB7D36-91B4-4223-BF00-E4017E4E1FE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroCommunication.Api.Tests", "tests\MicroCommunication.Api.Tests\MicroCommunication.Api.Tests.csproj", "{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

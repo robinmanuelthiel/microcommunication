@@ -1,4 +1,5 @@
 using Xunit;
+using System.Threading.Tasks;
 using MicroCommunication.Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using MicroCommunication.Api.Services;
@@ -10,13 +11,13 @@ namespace MicroCommunication.Api.Tests
         private readonly HistoryService fakeHistoryService = new HistoryService("");
 
         [Fact]
-        public void Get_Dice_ReturnsOk()
+        public async Task Get_Dice_ReturnsOk()
         {
             // Arrange
             var randomController = new RandomController(fakeHistoryService);
 
             // Act
-            var result = randomController.GetDice();
+            var result = await randomController.GetDice();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -26,13 +27,13 @@ namespace MicroCommunication.Api.Tests
         }
 
         [Fact]
-        public void Get_WithoutParamenter_ReturnsOk()
+        public async Task Get_WithoutParamenter_ReturnsOk()
         {
             // Arrange
             var randomController = new RandomController(fakeHistoryService);
 
             // Act
-            var result = randomController.Get(0);
+            var result = await randomController.Get(0);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);
@@ -41,14 +42,14 @@ namespace MicroCommunication.Api.Tests
         }
 
         [Fact]
-        public void Get_WithMax_ReturnsOk()
+        public async Task Get_WithMax_ReturnsOk()
         {
             // Arrange
             var randomController = new RandomController(fakeHistoryService);
             var max = 100;
 
             // Act
-            var result = randomController.Get(max);
+            var result = await randomController.Get(max);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result.Result);

@@ -1,8 +1,12 @@
 # General
-Dockerfile
+**/Dockerfile
 .DS_Store
 
 # .NET Core
 **/bin
 **/obj
 **/*.Development.json
+
+# Angular
+**/node_modules
+**/dist
