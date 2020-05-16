@@ -28,9 +28,9 @@ RUN if [ "$SONAR_ANALYZE" = "true" ] ; then\
 
 # Restore NuGet packages
 COPY ["src/MicroCommunication.Api/MicroCommunication.Api.csproj", "src/MicroCommunication.Api/"]
-COPY ["src/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj", "src/MicroCommunication.Api.Tests/"]
+COPY ["tests/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj", "tests/MicroCommunication.Api.Tests/"]
 RUN dotnet restore src/MicroCommunication.Api/MicroCommunication.Api.csproj
-RUN dotnet restore src/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj
+RUN dotnet restore tests/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj
 
 # Copy the rest of the files over
 COPY . .
@@ -40,7 +40,7 @@ RUN dotnet publish --output /out/ --configuration Debug src/MicroCommunication.A
 
 # Test the application
 RUN dotnet tool install --global coverlet.console
-RUN dotnet test --configuration Debug src/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj \
+RUN dotnet test --configuration Debug tests/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj \
   /p:CollectCoverage=true \
   /p:CoverletOutputFormat=opencover \
   /p:CoverletOutput="/coverage"
