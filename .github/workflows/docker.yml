@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - src/**
+      - .github/workflows/**
 jobs:
   build:
     runs-on: ubuntu-latest
