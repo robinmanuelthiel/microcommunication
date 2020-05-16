@@ -3,7 +3,7 @@ version: '3.6'
 services:
   api:
     build:
-      context: ../../src/MicroCommunication.Api
+      context: ../../src/api
       dockerfile: Dockerfile
     ports:
       - '8080:8080'
@@ -11,7 +11,7 @@ services:
       - ApiKey=
   web:
     build:
-      context: ../../src/MicroCommunication.Web
+      context: ../../src/web
       dockerfile: Dockerfile
     ports:
       - '5000:8080'

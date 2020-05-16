@@ -27,20 +27,20 @@ RUN if [ "$SONAR_ANALYZE" = "true" ] ; then\
   ; fi
 
 # Restore NuGet packages
-COPY ["src/MicroCommunication.Api/MicroCommunication.Api.csproj", "src/MicroCommunication.Api/"]
-COPY ["tests/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj", "tests/MicroCommunication.Api.Tests/"]
-RUN dotnet restore src/MicroCommunication.Api/MicroCommunication.Api.csproj
-RUN dotnet restore tests/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj
+COPY ["MicroCommunication.Api/MicroCommunication.Api.csproj", "MicroCommunication.Api/"]
+COPY ["MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj", "MicroCommunication.Api.Tests/"]
+RUN dotnet restore MicroCommunication.Api/MicroCommunication.Api.csproj
+RUN dotnet restore MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj
 
 # Copy the rest of the files over
 COPY . .
 
 # Build the application
-RUN dotnet publish --output /out/ --configuration Debug src/MicroCommunication.Api/MicroCommunication.Api.csproj
+RUN dotnet publish --output /out/ --configuration Debug MicroCommunication.Api/MicroCommunication.Api.csproj
 
 # Test the application
 RUN dotnet tool install --global coverlet.console
-RUN dotnet test --configuration Debug tests/MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj \
+RUN dotnet test --configuration Debug MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj \
   /p:CollectCoverage=true \
   /p:CoverletOutputFormat=opencover \
   /p:CoverletOutput="/coverage"

@@ -6,7 +6,3 @@
 **/bin
 **/obj
 **/*.Development.json
-
-# Angular
-**/node_modules
-**/dist
