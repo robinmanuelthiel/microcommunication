@@ -3,18 +3,22 @@ using System.Threading.Tasks;
 using MicroCommunication.Api.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using MicroCommunication.Api.Services;
+using Microsoft.Extensions.Configuration;
+using Moq;
 
 namespace MicroCommunication.Api.Tests
 {
     public class RandomControllerTests
     {
         private readonly HistoryService fakeHistoryService = new HistoryService("");
+        private readonly IConfiguration fakeConfiguration = new Mock<IConfiguration>().Object;
+
 
         [Fact]
         public async Task Get_Dice_ReturnsOk()
         {
             // Arrange
-            var randomController = new RandomController(fakeHistoryService);
+            var randomController = new RandomController(fakeHistoryService, fakeConfiguration);
 
             // Act
             var result = await randomController.GetDice();
@@ -30,7 +34,7 @@ namespace MicroCommunication.Api.Tests
         public async Task Get_WithoutParamenter_ReturnsOk()
         {
             // Arrange
-            var randomController = new RandomController(fakeHistoryService);
+            var randomController = new RandomController(fakeHistoryService, fakeConfiguration);
 
             // Act
             var result = await randomController.Get(0);
@@ -45,7 +49,7 @@ namespace MicroCommunication.Api.Tests
         public async Task Get_WithMax_ReturnsOk()
         {
             // Arrange
-            var randomController = new RandomController(fakeHistoryService);
+            var randomController = new RandomController(fakeHistoryService, fakeConfiguration);
             var max = 100;
 
             // Act
