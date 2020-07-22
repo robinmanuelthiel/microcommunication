@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build-api",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/MicroCommunication.Api/bin/Debug/netcoreapp3.1/MicroCommunication.Api.dll",
+            "program": "${workspaceFolder}/src/api/MicroCommunication.Api/bin/Debug/netcoreapp3.1/MicroCommunication.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/MicroCommunication.Api",
+            "cwd": "${workspaceFolder}/src/api/MicroCommunication.Api",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
