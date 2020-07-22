@@ -9,12 +9,14 @@ namespace MicroCommunication.Api.Models
         [BsonId]
         [BsonRepresentation(BsonType.String)]
         public string Id { get; set; }
+        public string Name { get; set; }
         public DateTime Date { get; set; }
         public int Value { get; set; }
 
-        public History(int value)
+        public History(string name, int value)
         {
             Id = ObjectId.GenerateNewId().ToString();
+            Name = name;
             Date = DateTime.Now;
             Value = value;
         }

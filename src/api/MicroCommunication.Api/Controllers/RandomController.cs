@@ -12,12 +12,14 @@ namespace MicroCommunication.Api.Controllers
     public class RandomController : ControllerBase
     {
         readonly HistoryService historyService;
+        readonly string instanceName;
         readonly Counter diceCounter;
         readonly Counter randomCounter;
 
-        public RandomController(HistoryService historyService)
+        public RandomController(HistoryService historyService, IConfiguration configuration)
         {
             this.historyService = historyService;
+            this.instanceName = configuration["RandomName"];
 
             // Custom Prometheus metrics
             diceCounter = Metrics.CreateCounter("dice_rolled", "Indicates, how often the dice has been rolled.");
@@ -38,7 +40,7 @@ namespace MicroCommunication.Api.Controllers
             diceCounter.Inc();
 
             // Save to history
-            await historyService.SaveValueAsync(value);
+            await historyService.SaveValueAsync(instanceName, value);
 
             // Return the result
             return Ok(value);
@@ -61,7 +63,7 @@ namespace MicroCommunication.Api.Controllers
             randomCounter.Inc();
 
             // Save to history
-            await historyService.SaveValueAsync(value);
+            await historyService.SaveValueAsync(instanceName, value);
 
             // Return the result
             return Ok(value);

@@ -39,14 +39,14 @@ namespace MicroCommunication.Api.Services
             }
         }
 
-        public async Task SaveValueAsync(int value)
+        public async Task SaveValueAsync(string name, int value)
         {
             if (!isReady)
                 return;
 
             try
             {
-                var history = new History(value);
+                var history = new History(name, value);
                 await collection.InsertOneAsync(history);
             }
             catch (Exception ex)
