@@ -56,10 +56,12 @@ kubectl create -f env/kubernetes/microcommunication.yaml
 #### GitOps with Flux
 
 ```bash
+helm repo add fluxcd https://charts.fluxcd.io
+
 helm upgrade -i flux fluxcd/flux \
   --set git.url=https://github.com/robinmanuelthiel/microcommunication.git \
+  --set git.path=env/kubernetes \
   --set git.readonly=true \
-  --git.path=env/kubernetes/flux \
   --namespace flux
 ```
 
