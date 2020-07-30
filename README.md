@@ -53,6 +53,16 @@ This Demo project is intended to be tested within container orchestrators. For t
 kubectl create -f env/kubernetes/microcommunication.yaml
 ```
 
+#### GitOps with Flux
+
+```bash
+helm upgrade -i flux fluxcd/flux \
+  --set git.url=https://github.com/robinmanuelthiel/microcommunication.git \
+  --set git.readonly=true \
+  --git.path=env/kubernetes/flux \
+  --namespace flux
+```
+
 ### Docker Compose
 
 ```bash
