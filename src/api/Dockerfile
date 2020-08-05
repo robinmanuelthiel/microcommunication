@@ -8,6 +8,7 @@ ARG SONAR_ANALYZE=false
 ARG SONAR_PROJECT_KEY=robinmanuelthiel_microcommunication
 ARG SONAR_OGRANIZAION_KEY=robinmanuelthiel
 ARG SONAR_HOST_URL=https://sonarcloud.io
+ARG SONAR_BRANCH=master
 ARG SONAR_TOKEN
 WORKDIR /app
 
@@ -23,6 +24,7 @@ RUN if [ "$SONAR_ANALYZE" = "true" ] ; then\
   /o:"$SONAR_OGRANIZAION_KEY" \
   /d:sonar.host.url="$SONAR_HOST_URL" \
   /d:sonar.login="$SONAR_TOKEN" \
+  /d:sonar.branch.name="$SONAR_BRANCH" \
   /d:sonar.cs.opencover.reportsPaths=/coverage.opencover.xml \
   ; fi
 
