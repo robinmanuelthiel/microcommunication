@@ -73,7 +73,9 @@ namespace MicroCommunication.Api
                 {
                     Title = "Random API ",
                     Version = "1.0",
-                    Description = $"An API for generating random numbers.\nMy name is {Configuration["RandomName"]}."
+                    Description = "An API for generating random numbers.\n" +
+                        $"My name is {Configuration["RandomName"]}.\n" +
+                        $"Environment: {Configuration["EnvironmentName"]}"
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);

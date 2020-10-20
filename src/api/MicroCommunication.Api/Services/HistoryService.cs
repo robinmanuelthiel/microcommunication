@@ -10,8 +10,6 @@ namespace MicroCommunication.Api.Services
     public class HistoryService
     {
         readonly bool isReady;
-        readonly IMongoClient client;
-        readonly IMongoDatabase database;
         readonly IMongoCollection<History> collection;
 
         public HistoryService(string connectionString)
@@ -26,8 +24,8 @@ namespace MicroCommunication.Api.Services
                 var settings = MongoClientSettings.FromUrl(new MongoUrl(connectionString));
                 settings.SslSettings = new SslSettings() { EnabledSslProtocols = SslProtocols.Tls12 };
 
-                client = new MongoClient(settings);
-                database = client.GetDatabase("microcommunication");
+                var client = new MongoClient(settings);
+                var database = client.GetDatabase("microcommunication");
                 collection = database.GetCollection<History>("history");
 
                 isReady = true;
