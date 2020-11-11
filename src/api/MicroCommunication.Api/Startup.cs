@@ -54,7 +54,11 @@ namespace MicroCommunication.Api
             var personGenerator = new PersonNameGenerator();
             var name = personGenerator.GenerateRandomFirstName();
             Configuration["RandomName"] = name;
-            Console.WriteLine("My name is " + Configuration["RandomName"]);
+            Console.WriteLine("My instance name is: " + Configuration["RandomName"]);
+
+            // Environment
+            var environment = string.IsNullOrEmpty(Configuration["EnvironmentName"]) ? "Default" : Configuration["EnvironmentName"];
+            Console.WriteLine("My environment is: " + environment);
 
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -73,9 +77,9 @@ namespace MicroCommunication.Api
                 {
                     Title = "Random API ",
                     Version = "1.0",
-                    Description = "An API for generating random numbers.\n" +
-                        $"My name is {Configuration["RandomName"]}.\n" +
-                        $"Environment: {Configuration["EnvironmentName"]}"
+                    Description = "An API for generating random numbers.\n\n" +
+                        $"Instance name: {Configuration["RandomName"]}\n\n" +
+                        $"Environment: {environment}"
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
