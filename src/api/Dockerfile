@@ -3,30 +3,18 @@
 #######################################################
 # Download the official ASP.NET Core SDK image
 # to build the project while creating the docker image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as build
+FROM pumpingcode/dotnet-core-advanced-build:latest as build
+WORKDIR /app
+
 ARG SONAR_ANALYZE=false
 ARG SONAR_PROJECT_KEY=robinmanuelthiel_microcommunication
-ARG SONAR_OGRANIZAION_KEY=robinmanuelthiel
+ARG SONAR_ORGANIZATION_KEY=robinmanuelthiel
 ARG SONAR_HOST_URL=https://sonarcloud.io
 ARG SONAR_BRANCH=master
 ARG SONAR_TOKEN
-WORKDIR /app
 
-# Install Sonar Scanner and Java (required for Sonar Scanner)
-RUN if [ "$SONAR_ANALYZE" = "true" ] ; then apt-get update && apt-get install -y openjdk-11-jdk ; fi
-RUN if [ "$SONAR_ANALYZE" = "true" ] ; then dotnet tool install --global dotnet-sonarscanner ; fi
-ENV PATH="$PATH:/root/.dotnet/tools"
-
-# Start Sonar Scanner
-RUN if [ "$SONAR_ANALYZE" = "true" ] ; then\
-  dotnet sonarscanner begin \
-  /k:"$SONAR_PROJECT_KEY" \
-  /o:"$SONAR_OGRANIZAION_KEY" \
-  /d:sonar.host.url="$SONAR_HOST_URL" \
-  /d:sonar.login="$SONAR_TOKEN" \
-  /d:sonar.branch.name="$SONAR_BRANCH" \
-  /d:sonar.cs.opencover.reportsPaths=/coverage.opencover.xml \
-  ; fi
+# Start the Sonar Scanner
+RUN /sonar/sonar-start.sh
 
 # Restore NuGet packages
 COPY ["MicroCommunication.Api/MicroCommunication.Api.csproj", "MicroCommunication.Api/"]
@@ -47,8 +35,8 @@ RUN dotnet test --configuration Debug MicroCommunication.Api.Tests/MicroCommunic
   /p:CoverletOutputFormat=opencover \
   /p:CoverletOutput="/coverage"
 
-# End Sonar Scanner
-RUN if [ "$SONAR_ANALYZE" = "true" ] ; then dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN" ; fi
+# End the Sonar Scanner
+RUN /sonar/sonar-end.sh
 
 #######################################################
 # Step 2: Run the build outcome in a container        #
