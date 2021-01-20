@@ -72,7 +72,6 @@ spec:
   type: LoadBalancer
   selector:
     app: api
-    namespace: microcommunication
   ports:
     - protocol: TCP
       port: 8080
