@@ -48,7 +48,10 @@ namespace MicroCommunication.Api
 
             // Logging
             if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsInstrumentationKey"]))
+            {
                 services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightsInstrumentationKey"]);
+                Console.WriteLine("Application Insights configured.");
+            }
 
             // Create random name for testing session affinity
             var personGenerator = new PersonNameGenerator();
