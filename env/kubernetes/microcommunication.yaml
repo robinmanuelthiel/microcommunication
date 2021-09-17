@@ -69,7 +69,7 @@ metadata:
 #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 #    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "api-ingress-subnet"
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: api
   ports:
@@ -120,7 +120,7 @@ metadata:
   name: web
   namespace: microcommunication
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: web
   ports:
