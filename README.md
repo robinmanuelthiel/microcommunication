@@ -80,3 +80,11 @@ docker-compose -f env/docker-compose/docker-compose.yaml up
 ```bash
 az mesh deployment create --resource-group Demo --template-file env/servicefabric-mesh/servicefabric-mesh.json
 ```
+
+## Testing
+
+### Performance Test
+
+```bash
+k6 script.js
+```
