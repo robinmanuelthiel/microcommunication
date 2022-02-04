@@ -1,18 +1,19 @@
 using System;
 using System.Security.Authentication;
 using System.Threading.Tasks;
+using MicroCommunication.Api.Abstractions;
 using MicroCommunication.Api.Models;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 
 namespace MicroCommunication.Api.Services
 {
-    public class HistoryService
+    public class MongoDbHistoryService : IHistoryService
     {
         readonly bool isReady;
         readonly IMongoCollection<History> collection;
 
-        public HistoryService(string connectionString)
+        public MongoDbHistoryService(string connectionString)
         {
             try
             {

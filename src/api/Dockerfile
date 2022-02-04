@@ -29,7 +29,7 @@ COPY . .
 RUN dotnet publish --output /out/ --configuration Debug MicroCommunication.Api/MicroCommunication.Api.csproj
 
 # Test the application
-RUN dotnet tool install --global coverlet.console
+RUN dotnet tool install --global coverlet.console --version 1.7.1
 RUN dotnet test --configuration Debug MicroCommunication.Api.Tests/MicroCommunication.Api.Tests.csproj \
   /p:CollectCoverage=true \
   /p:CoverletOutputFormat=opencover \

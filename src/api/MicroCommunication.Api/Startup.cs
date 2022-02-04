@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using MicroCommunication.Api.Abstractions;
 using MicroCommunication.Api.Authentication;
 using MicroCommunication.Api.Hubs;
 using MicroCommunication.Api.Services;
@@ -44,7 +45,17 @@ namespace MicroCommunication.Api
                 });
             }
 
-            services.AddSingleton(new HistoryService(Configuration["MongoDbConnectionString"]));
+            switch (Configuration["Database"])
+            {
+                case "CosmosDB":
+                    services.AddSingleton<IHistoryService>(new CosmosDbHistoryService(Configuration["CosmosDbConnectionString"]));
+                    break;
+                case "MongoDB":
+                    services.AddSingleton<IHistoryService>(new MongoDbHistoryService(Configuration["MongoDbConnectionString"]));
+                    break;
+                default:
+                    throw new Exception("Unknown database type: " + Configuration["Database"]);
+            }
 
             // Logging
             if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsInstrumentationKey"]))

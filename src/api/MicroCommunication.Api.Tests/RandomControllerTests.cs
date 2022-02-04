@@ -1,16 +1,18 @@
-using Xunit;
 using System.Threading.Tasks;
+using MicroCommunication.Api.Abstractions;
 using MicroCommunication.Api.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using MicroCommunication.Api.Services;
+using MicroCommunication.Api.Tests.Services;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using Xunit;
 
 namespace MicroCommunication.Api.Tests
 {
     public class RandomControllerTests
     {
-        private readonly HistoryService fakeHistoryService = new HistoryService("");
+        private readonly IHistoryService fakeHistoryService = new FakeHistoryService();
         private readonly IConfiguration fakeConfiguration = new Mock<IConfiguration>().Object;
 
 

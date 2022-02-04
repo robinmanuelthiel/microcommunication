@@ -1,4 +1,4 @@
-version: '3.6'
+version: "3.6"
 
 services:
   api:
@@ -6,15 +6,36 @@ services:
       context: ../../src/api
       dockerfile: Dockerfile
     ports:
-      - '8080:8080'
+      - "8080:8080"
     environment:
-      - ApiKey=
+      - Database=CosmosDB
+    env_file:
+      - .env
+    depends_on:
+      - cosmosdb
+
   web:
     build:
       context: ../../src/web
       dockerfile: Dockerfile
     ports:
-      - '5000:8080'
+      - "5000:8080"
     environment:
       - API_URL=http://localhost:8080
-      - API_KEY=
+    depends_on:
+      - api
+
+  cosmosdb:
+    image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
+    hostname: cosmosdb
+    container_name: cosmosdb
+    mem_limit: 3g
+    cpus: 2.0
+    ports:
+      - "8081:8081"
+      - "10251:10251"
+      - "10252:10252"
+      - "10254:10254"
+    environment:
+      - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=10
+      - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=true

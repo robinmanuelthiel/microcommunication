@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using MicroCommunication.Api.Abstractions;
 using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,12 +12,12 @@ namespace MicroCommunication.Api.Controllers
     [ApiController]
     public class RandomController : ControllerBase
     {
-        readonly HistoryService historyService;
+        readonly IHistoryService historyService;
         readonly string instanceName;
         readonly Counter diceCounter;
         readonly Counter randomCounter;
 
-        public RandomController(HistoryService historyService, IConfiguration configuration)
+        public RandomController(IHistoryService historyService, IConfiguration configuration)
         {
             this.historyService = historyService;
             this.instanceName = configuration["RandomName"];
