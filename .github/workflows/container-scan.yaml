@@ -1,0 +1,27 @@
+name: build
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: "ubuntu-18.04"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@2a2157eb22c08c9a1fac99263430307b8d1bc7a2
+        with:
+          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          format: 'template'
+          template: '@/contrib/sarif.tpl'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - uses: Azure/container-scan@v0.1
+        name: Scan image for vulnerabilities
+        id: container-scan
+#        continue-on-error: true
+        with:
+          image-name: robinmanuelthiel/microcommunication-api:latest
