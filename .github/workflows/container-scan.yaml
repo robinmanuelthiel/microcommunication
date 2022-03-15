@@ -1,10 +1,10 @@
-name: build
+name: Container Scan
 on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build
+  scan:
+    name: scan
     runs-on: "ubuntu-18.04"
     steps:
       - name: Checkout code
@@ -13,7 +13,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@2a2157eb22c08c9a1fac99263430307b8d1bc7a2
         with:
-          image-ref: 'docker.io/my-organization/my-app:${{ github.sha }}'
+          image-ref: 'robinmanuelthiel/microcommunication-api:latest'
           format: 'template'
           template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
