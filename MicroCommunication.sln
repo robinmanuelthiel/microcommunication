@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7D064DB9-6A6E-4313-81F0-1FFE0615252A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "api", "api", "{400B24CC-3A26-4E7A-BC17-EA227698DB80}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroCommunication.Api", "src\api\MicroCommunication.Api\MicroCommunication.Api.csproj", "{DA4B2ACC-4BA2-42F7-A631-61551B927263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroCommunication.Api.Tests", "src\api\MicroCommunication.Api.Tests\MicroCommunication.Api.Tests.csproj", "{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "random", "random", "{54D10750-06DD-4CA5-911E-B25D0D4C96FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroCommunication.Random", "src\random\MicroCommunication.Random\MicroCommunication.Random.csproj", "{DA4B2ACC-4BA2-42F7-A631-61551B927263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroCommunication.Api.Tests", "src\random\MicroCommunication.Random.Tests\MicroCommunication.Api.Tests.csproj", "{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA4B2ACC-4BA2-42F7-A631-61551B927263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA4B2ACC-4BA2-42F7-A631-61551B927263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA4B2ACC-4BA2-42F7-A631-61551B927263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA4B2ACC-4BA2-42F7-A631-61551B927263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD3A4E7-FF6D-46EA-9379-E8B60800E229}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{400B24CC-3A26-4E7A-BC17-EA227698DB80} = {7D064DB9-6A6E-4313-81F0-1FFE0615252A}
+		{DA4B2ACC-4BA2-42F7-A631-61551B927263} = {54D10750-06DD-4CA5-911E-B25D0D4C96FE}
+		{6DD3A4E7-FF6D-46EA-9379-E8B60800E229} = {54D10750-06DD-4CA5-911E-B25D0D4C96FE}
+		{54D10750-06DD-4CA5-911E-B25D0D4C96FE} = {7D064DB9-6A6E-4313-81F0-1FFE0615252A}
+	EndGlobalSection
+EndGlobal

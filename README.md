@@ -6,6 +6,8 @@
 &nbsp;
 [![Docker](https://img.shields.io/badge/Docker%20Hub-microcommunication--web-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-web/)
 &nbsp;
+[![Docker](https://img.shields.io/badge/Docker%20Hub-microcommunication--random-blue.svg?logo=docker)](https://hub.docker.com/r/robinmanuelthiel/microcommunication-random/)
+&nbsp;
 ![Build and push Docker images](https://github.com/robinmanuelthiel/microcommunication/workflows/Build%20and%20push%20Docker%20images/badge.svg)
 &nbsp;
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=robinmanuelthiel_microcommunication&metric=alert_status)](https://sonarcloud.io/dashboard?id=robinmanuelthiel_microcommunication)
@@ -14,7 +16,8 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 
 The project consists of
 
-- An API Backend, written in .NET Core, exposes port `8080`
+- An API Gateway, written in .NET Core, exposes port `8080`
+- A Radom Number Generator Service, written in .NET Core, exposes port `8080`
 - A Web Frontend, written in Angular, exposes port `8080`
 
 ## Make it run
@@ -36,8 +39,14 @@ You need to set some environment variables to configure the services and their d
 `MicroCommunication.Api`:
 
 - `ApiKey=test123` _Optional: The key, that the API allows for authorization_
-- `MongoDbConnectionString=mongo://...` _Optional: The connection string for a Mongo DB to store the history in_
 - `RedisCacheConnectionString=...` _Optional: The connection string for a Redis Cache to sync SignalR Hubs_
+- `ApplicationInsightsInstrumentationKey=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `Cors` _Optional: The domain of your web app to add to the CORS_
+- `RandomApiUrl` _The URL to connect to the Random Service_
+
+`MicroCommunication.Random`:
+
+- `MongoDbConnectionString=mongo://...` _Optional: The connection string for a Mongo DB to store the history in_
 - `ApplicationInsightsInstrumentationKey=...` _Optional: The Azure Application Insights Instrumentation Key_
 - `Cors` _Optional: The domain of your web app to add to the CORS_
 
@@ -73,12 +82,6 @@ helm upgrade -i flux fluxcd/flux \
 
 ```bash
 docker-compose -f env/docker-compose/docker-compose.yaml up
-```
-
-### Service Fabric Mesh
-
-```bash
-az mesh deployment create --resource-group Demo --template-file env/servicefabric-mesh/servicefabric-mesh.json
 ```
 
 ## Testing

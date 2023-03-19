@@ -3,19 +3,20 @@ kind: Ingress
 metadata:
   name: microcommunication
   annotations:
-    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.class: {{ .Values.ingress.class }}
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/affinity: cookie
 spec:
   rules:
-    - host: api.your.domain.com
+    - host: api.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
             backend:
               serviceName: api
               servicePort: 8080
-    - host: app.your.domain.com
+
+    - host: app.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /

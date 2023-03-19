@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using MicroCommunication.Api.Abstractions;
-using MicroCommunication.Api.Authentication;
-using MicroCommunication.Api.Hubs;
-using MicroCommunication.Api.Services;
+using MicroCommunication.Random.Abstractions;
+using MicroCommunication.Random.Authentication;
+using MicroCommunication.Random.Hubs;
+using MicroCommunication.Random.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -15,34 +15,30 @@ using Microsoft.OpenApi.Models;
 using Prometheus;
 using RandomNameGeneratorLibrary;
 
-namespace MicroCommunication.Api
+namespace MicroCommunication.Random
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        readonly bool useApiKey;
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            useApiKey = !string.IsNullOrEmpty(configuration["ApiKey"]);
-            Console.WriteLine("Using API Key: " + useApiKey);
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (useApiKey)
+            switch (Configuration["Database"])
             {
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = ApiKeyAuthenticationOptions.DefaultScheme;
-                    options.DefaultChallengeScheme = ApiKeyAuthenticationOptions.DefaultScheme;
-                }).AddApiKeySupport(options =>
-                {
-                    options.ApiKeyHeaderName = "api-key";
-                    options.ApiKey = "";
-                });
+                case "CosmosDB":
+                    services.AddSingleton<IHistoryService>(new CosmosDbHistoryService(Configuration["CosmosDbConnectionString"]));
+                    break;
+                case "MongoDB":
+                    services.AddSingleton<IHistoryService>(new MongoDbHistoryService(Configuration["MongoDbConnectionString"]));
+                    break;
+                default:
+                    throw new Exception("Unknown database type: " + Configuration["Database"]);
             }
 
             // Logging
@@ -51,9 +47,6 @@ namespace MicroCommunication.Api
                 services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightsInstrumentationKey"]);
                 Console.WriteLine("Application Insights configured.");
             }
-
-            // Register Random API
-            services.AddRefitService();
 
             // Create random name for testing session affinity
             var personGenerator = new PersonNameGenerator();
@@ -70,49 +63,20 @@ namespace MicroCommunication.Api
 
             services.AddControllers();
 
-            // SignalR
-            var signalR = services.AddSignalR();
-            if (!string.IsNullOrEmpty(Configuration["RedisCacheConnectionString"]))
-                signalR.AddStackExchangeRedis(Configuration["RedisCacheConnectionString"]);
-
             // Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("1.0", new OpenApiInfo
                 {
-                    Title = "Micro Communication API Gateway",
+                    Title = "Micro Communication Random API",
                     Version = "1.0",
-                    Description = "Public Micro Communication API.\n\n" +
+                    Description = "An API for generating random numbers.\n\n" +
                         $"Instance name: {Configuration["RandomName"]}\n\n" +
                         $"Environment: {environment}"
                 });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
-
-                if (useApiKey)
-                {
-                    c.AddSecurityDefinition("API Key", new OpenApiSecurityScheme
-                    {
-                        Description = "Add the key to access this API to the HTTP header of your requests.",
-                        Name = "api-key",
-                        In = ParameterLocation.Header,
-                        Type = SecuritySchemeType.ApiKey
-                    });
-                    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                    {
-                        {
-                            new OpenApiSecurityScheme
-                            {
-                                Reference = new OpenApiReference
-                                {
-                                    Id = "API Key",
-                                    Type = ReferenceType.SecurityScheme
-                                }
-                            }, new List<string>()
-                        }
-                    });
-                }
             });
 
             // CORS
@@ -137,15 +101,6 @@ namespace MicroCommunication.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            if (useApiKey)
-            {
-                app.UseApiKey(c =>
-                {
-                    c.ApiKeyHeaderName = "api-key";
-                    c.ApiKey = Configuration["ApiKey"];
-                });
-            }
-
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
@@ -158,7 +113,6 @@ namespace MicroCommunication.Api
                 endpoints.MapMetrics();
 
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>("/chat");
             });
 
             app.UseSwagger();

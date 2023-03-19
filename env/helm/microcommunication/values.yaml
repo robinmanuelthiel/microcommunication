@@ -1,0 +1,24 @@
+ingress:
+  domain: your.domain.com
+  class: nginx
+
+api:
+  image: robinmanuelthiel/microcommunication-api
+  tag: latest
+  config:
+    apiKey: ""
+    signalR:
+      redisCacheConnectionString: ""
+
+random:
+  image: robinmanuelthiel/microcommunication-random
+  tag: latest
+  config:
+    database:
+      mongoDbConnectionString: ""
+
+web:
+  image: robinmanuelthiel/microcommunication-web
+  tag: latest
+  config:
+    apiUrl: ""

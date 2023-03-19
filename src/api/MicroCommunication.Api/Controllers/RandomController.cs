@@ -12,19 +12,11 @@ namespace MicroCommunication.Api.Controllers
     [ApiController]
     public class RandomController : ControllerBase
     {
-        readonly IHistoryService historyService;
-        readonly string instanceName;
-        readonly Counter diceCounter;
-        readonly Counter randomCounter;
+        readonly IRandomApi _randomApi;
 
-        public RandomController(IHistoryService historyService, IConfiguration configuration)
+        public RandomController(IRandomApi randomApi)
         {
-            this.historyService = historyService;
-            this.instanceName = configuration["RandomName"];
-
-            // Custom Prometheus metrics
-            diceCounter = Metrics.CreateCounter("dice_rolled", "Indicates, how often the dice has been rolled.");
-            randomCounter = Metrics.CreateCounter("random_number_generated", "Indicates, how often a random number has been generated.");
+            _randomApi = randomApi;
         }
 
         // GET api/values
@@ -33,15 +25,7 @@ namespace MicroCommunication.Api.Controllers
         public async Task<ActionResult<int>> GetDice()
         {
             // Roll the dice!
-            var random = new Random();
-            var value = random.Next(1, 7);
-
-            // Log the result
-            Console.WriteLine($"The dice has been rolled: {value}");
-            diceCounter.Inc();
-
-            // Save to history
-            await historyService.SaveValueAsync(instanceName, value);
+            var value = await _randomApi.GetDiceAsync();
 
             // Return the result
             return Ok(value);
@@ -52,19 +36,8 @@ namespace MicroCommunication.Api.Controllers
         [Route("value")]
         public async Task<ActionResult<int>> Get(int max)
         {
-            var random = new Random();
-            int value;
-            if (max > 0)
-                value = random.Next(0, max);
-            else
-                value = random.Next();
-
-            // Log the result
-            Console.WriteLine($"A random number has been generated: {value}");
-            randomCounter.Inc();
-
-            // Save to history
-            await historyService.SaveValueAsync(instanceName, value);
+            // Get max value
+            var value = await _randomApi.GetWithMaxValueAsync(max);
 
             // Return the result
             return Ok(value);
