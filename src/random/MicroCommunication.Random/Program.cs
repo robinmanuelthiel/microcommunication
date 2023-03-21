@@ -14,7 +14,7 @@ namespace MicroCommunication.Random
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://+:800/");
+                    webBuilder.UseUrls("http://+:8090/");
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MicroCommunication.Api.Abstractions;
-using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Prometheus;

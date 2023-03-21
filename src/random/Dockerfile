@@ -3,18 +3,8 @@
 #######################################################
 # Download the official ASP.NET Core SDK image
 # to build the project while creating the docker image
-FROM pumpingcode/dotnet-core-advanced-build:latest as build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as build
 WORKDIR /app
-
-ARG SONAR_ANALYZE=false
-ARG SONAR_PROJECT_KEY=robinmanuelthiel_microcommunication
-ARG SONAR_ORGANIZATION_KEY=robinmanuelthiel
-ARG SONAR_HOST_URL=https://sonarcloud.io
-ARG SONAR_BRANCH=master
-ARG SONAR_TOKEN
-
-# Start the Sonar Scanner
-RUN /sonar/sonar-start.sh
 
 # Restore NuGet packages
 COPY ["MicroCommunication.Random/MicroCommunication.Random.csproj", "MicroCommunication.Random/"]
@@ -26,17 +16,10 @@ RUN dotnet restore MicroCommunication.Random.Tests/MicroCommunication.Random.Tes
 COPY . .
 
 # Build the application
-RUN dotnet publish --output /out/ --configuration Debug MicroCommunication.Random/MicroCommunication.Random.csproj
+RUN dotnet publish --output /out/ --configuration Release MicroCommunication.Random/MicroCommunication.Random.csproj
 
 # Test the application
-RUN dotnet tool install --global coverlet.console --version 1.7.1
-RUN dotnet test --configuration Debug MicroCommunication.Random.Tests/MicroCommunication.Random.Tests.csproj \
-  /p:CollectCoverage=true \
-  /p:CoverletOutputFormat=opencover \
-  /p:CoverletOutput="/coverage"
-
-# End the Sonar Scanner
-RUN /sonar/sonar-end.sh
+RUN dotnet test --configuration Release MicroCommunication.Random.Tests/MicroCommunication.Random.Tests.csproj
 
 #######################################################
 # Step 2: Run the build outcome in a container        #

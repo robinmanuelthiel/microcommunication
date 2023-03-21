@@ -5,7 +5,6 @@ using System.Reflection;
 using MicroCommunication.Api.Abstractions;
 using MicroCommunication.Api.Authentication;
 using MicroCommunication.Api.Hubs;
-using MicroCommunication.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Prometheus;
 using RandomNameGeneratorLibrary;
+using Refit;
 
 namespace MicroCommunication.Api
 {
@@ -53,7 +53,9 @@ namespace MicroCommunication.Api
             }
 
             // Register Random API
-            services.AddRefitService();
+            services
+                .AddRefitClient<IRandomApi>()
+                .ConfigureHttpClient(c => c.BaseAddress = new Uri(Configuration["RandomApiUrl"]));
 
             // Create random name for testing session affinity
             var personGenerator = new PersonNameGenerator();

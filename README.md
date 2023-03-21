@@ -62,8 +62,18 @@ This Demo project is intended to be tested within container orchestrators. For t
 
 ### Kubernetes
 
+#### Manifests
+
 ```bash
-kubectl create -f env/kubernetes/microcommunication.yaml
+kubectl create -f env/kubernetes
+```
+
+#### Helm
+
+```bash
+helm install microcommunication env/helm \
+  --namespace microcommunication \
+  --create-namespace
 ```
 
 #### GitOps with Flux
@@ -81,7 +91,7 @@ helm upgrade -i flux fluxcd/flux \
 ### Docker Compose
 
 ```bash
-docker-compose -f env/docker-compose/docker-compose.yaml up
+docker compose -f env/docker/docker-compose.yaml up
 ```
 
 ## Testing
@@ -89,5 +99,5 @@ docker-compose -f env/docker-compose/docker-compose.yaml up
 ### Performance Test
 
 ```bash
-k6 script.js
+k6 tests/performance/script.js
 ```

@@ -12,8 +12,7 @@ RUN npm install
 COPY . .
 
 # Build the application
-RUN npm install -g @angular/cli
-RUN ng build --configuration production --output-path=/dist
+RUN npm run build -- --configuration production --output-path=/dist
 
 #######################################################
 # Step 2: Run the build outcome in a container        #
@@ -32,7 +31,7 @@ RUN touch /var/run/nginx.pid && \
   chown -R node:root /run /var/run/nginx.pid /var/cache/nginx /usr/share/nginx/html
 
 # Create startup script to replace placeholders in appsettings.template.js with environment variables and run NGINX
-# RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js" > run.sh && \
+RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js" > run.sh && \
 RUN echo "nginx -g 'daemon off;'" >> run.sh
 
 # Switch to new user
