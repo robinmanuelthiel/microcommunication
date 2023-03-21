@@ -3,22 +3,35 @@ kind: Ingress
 metadata:
   name: microcommunication
   annotations:
+    # cert-manager.io/issuer: prod
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/affinity: cookie
 spec:
+  # tls:
+  #   - hosts:
+  #     - your.domain.com
+  #     secretName: microcommunication-ingress-tls
+
   rules:
     - host: api.your.domain.com
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: api
-              servicePort: 8080
+              service:
+                name: api
+                port:
+                  number: 8080
+
     - host: app.your.domain.com
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: web
-              servicePort: 80
+              service:
+                name: web
+                port:
+                  number: 80
