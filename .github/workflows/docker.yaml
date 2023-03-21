@@ -17,7 +17,7 @@ jobs:
         run: docker build src/api/ --file src/api/Dockerfile --tag robinmanuelthiel/microcommunication-api:$(date +%s) --tag robinmanuelthiel/microcommunication-api:latest
 
       - name: Build Random image
-        run: docker build src/random/ --file src/api/Dockerfile --tag robinmanuelthiel/microcommunication-random:$(date +%s) --tag robinmanuelthiel/microcommunication-random:latest
+        run: docker build src/random/ --file src/random/Dockerfile --tag robinmanuelthiel/microcommunication-random:$(date +%s) --tag robinmanuelthiel/microcommunication-random:latest
 
       - name: Build Web image
         run: docker build src/web/ --file src/web/Dockerfile --tag robinmanuelthiel/microcommunication-web:$(date +%s) --tag robinmanuelthiel/microcommunication-web:latest
