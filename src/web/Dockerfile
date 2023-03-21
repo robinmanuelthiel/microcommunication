@@ -32,7 +32,7 @@ RUN touch /var/run/nginx.pid && \
 
 # Create startup script to replace placeholders in appsettings.template.js with environment variables and run NGINX
 RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr/share/nginx/html/assets/appsettings.js" > run.sh && \
-RUN echo "nginx -g 'daemon off;'" >> run.sh
+    echo "nginx -g 'daemon off;'" >> run.sh
 
 # Switch to new user
 USER node
