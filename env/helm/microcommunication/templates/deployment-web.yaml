@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: microcommunication-web
-          image: {{ .Values.api.web.image }}:{{ .Values.api.web.tag }}
+          image: {{ .Values.web.image }}:{{ .Values.web.tag }}
           imagePullPolicy: Always
           env:
             - name: API_URL

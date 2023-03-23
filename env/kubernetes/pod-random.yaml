@@ -1,18 +1,18 @@
-kind: Pod
-apiVersion: v1
-metadata:
-  name: random
-spec:
-  containers:
-    - name: microcommunication-random
-      image: robinmanuelthiel/microcommunication-random:latest
-      imagePullPolicy: Always
-      ports:
-        - containerPort: 8090
-      resources:
-        requests:
-          memory: "64Mi"
-          cpu: "125m"
-        limits:
-          memory: "256Mi"
-          cpu: "500m"
+# kind: Pod
+# apiVersion: v1
+# metadata:
+#   name: random
+# spec:
+#   containers:
+#     - name: microcommunication-random
+#       image: robinmanuelthiel/microcommunication-random:latest
+#       imagePullPolicy: Always
+#       ports:
+#         - containerPort: 8090
+#       resources:
+#         requests:
+#           memory: "64Mi"
+#           cpu: "125m"
+#         limits:
+#           memory: "256Mi"
+#           cpu: "500m"

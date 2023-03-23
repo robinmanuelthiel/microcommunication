@@ -1,10 +1,11 @@
+{{ if .Values.ingress.enabled }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: microcommunication
   annotations:
     kubernetes.io/ingress.class: {{ .Values.ingress.class }}
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/affinity: cookie
 spec:
   rules:
@@ -12,14 +13,21 @@ spec:
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: api
-              servicePort: 8080
+              service:
+                name: api
+                port:
+                  number: 8080
 
     - host: app.{{ .Values.ingress.domain }}
       http:
         paths:
           - path: /
+            pathType: Prefix
             backend:
-              serviceName: web
-              servicePort: 80
+              service:
+                name: web
+                port:
+                  number: 8080
+{{ end }}

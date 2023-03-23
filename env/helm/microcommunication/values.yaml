@@ -1,4 +1,5 @@
 ingress:
+  enabled: true
   domain: your.domain.com
   class: nginx
 

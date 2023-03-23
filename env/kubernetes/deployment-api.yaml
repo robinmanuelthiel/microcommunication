@@ -29,7 +29,9 @@ spec:
             - containerPort: 8080
           env:
             - name: "Cors"
-              value: "https://app.yourdomain.com"
+              value: "http://randomdemo.southeastasia.cloudapp.azure.com"
+            - name: "RandomApiUrl"
+              value: "http://random:8090"
             - name: "RedisCacheConnectionString"
               valueFrom:
                 secretKeyRef:
