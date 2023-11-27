@@ -77,6 +77,7 @@ namespace MicroCommunication.Api
                 {
                     builder.AddAspNetCoreInstrumentation();
                     builder.AddEntityFrameworkCoreInstrumentation();
+                    builder.AddSource(Observability.DefaultActivities.Name);
                     builder.ConfigureResource((resource) =>
                     {
                         resource.AddService("API", "MicroCommunication", Assembly.GetExecutingAssembly().GetName().Version!.ToString(), false, name);
