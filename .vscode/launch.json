@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build-api",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/api/MicroCommunication.Api/bin/Debug/netcoreapp3.1/MicroCommunication.Api.dll",
+            "program": "${workspaceFolder}/src/api/MicroCommunication.Api/bin/Debug/net6.0/MicroCommunication.Api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/api/MicroCommunication.Api",
             "stopAtEntry": false,
@@ -39,7 +39,7 @@
             "request": "launch",
             "preLaunchTask": "build-random",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/random/MicroCommunication.Random/bin/Debug/netcoreapp3.1/MicroCommunication.Random.dll",
+            "program": "${workspaceFolder}/src/random/MicroCommunication.Random/bin/Debug/net6.0/MicroCommunication.Random.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/random/MicroCommunication.Random",
             "stopAtEntry": false,

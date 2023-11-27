@@ -40,14 +40,14 @@ You need to set some environment variables to configure the services and their d
 
 - `ApiKey=test123` _Optional: The key, that the API allows for authorization_
 - `RedisCacheConnectionString=...` _Optional: The connection string for a Redis Cache to sync SignalR Hubs_
-- `ApplicationInsightsInstrumentationKey=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `ApplicationInsightsConnectionString=...` _Optional: The Azure Application Insights Instrumentation Key_
 - `Cors` _Optional: The domain of your web app to add to the CORS_
 - `RandomApiUrl` _The URL to connect to the Random Service_
 
 `MicroCommunication.Random`:
 
 - `MongoDbConnectionString=mongo://...` _Optional: The connection string for a Mongo DB to store the history in_
-- `ApplicationInsightsInstrumentationKey=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `ApplicationInsightsConnectionString=...` _Optional: The Azure Application Insights Instrumentation Key_
 - `Cors` _Optional: The domain of your web app to add to the CORS_
 
 `MicroCommunication.Web`:

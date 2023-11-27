@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using MicroCommunication.Random.Abstractions;
-using MicroCommunication.Random.Authentication;
 using MicroCommunication.Random.Hubs;
 using MicroCommunication.Random.Services;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Prometheus;
 using RandomNameGeneratorLibrary;
 
@@ -41,13 +44,6 @@ namespace MicroCommunication.Random
                     throw new Exception("Unknown database type: " + Configuration["Database"]);
             }
 
-            // Logging
-            if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsInstrumentationKey"]))
-            {
-                services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightsInstrumentationKey"]);
-                Console.WriteLine("Application Insights configured.");
-            }
-
             // Create random name for testing session affinity
             var personGenerator = new PersonNameGenerator();
             var name = personGenerator.GenerateRandomFirstName();
@@ -58,10 +54,41 @@ namespace MicroCommunication.Random
             var environment = string.IsNullOrEmpty(Configuration["EnvironmentName"]) ? "Default" : Configuration["EnvironmentName"];
             Console.WriteLine("My environment is: " + environment);
 
+            // Monitoring
+            services
+                .AddOpenTelemetry()
+                .WithMetrics(builder =>
+                {
+                    builder.AddRuntimeInstrumentation();
+                    builder.AddHttpClientInstrumentation();
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddPrometheusExporter();
+                })
+                .WithTracing(builder =>
+                {
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddEntityFrameworkCoreInstrumentation();
+                    builder.ConfigureResource((resource) =>
+                    {
+                        resource.AddService("Random", "MicroCommunication", Assembly.GetExecutingAssembly().GetName().Version!.ToString(), false, name);
+                    });
+                });
+
+            if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsConnectionString"]))
+            {
+                services.AddOpenTelemetry().UseAzureMonitor(options =>
+                {
+                    options.ConnectionString = Configuration["ApplicationInsightsConnectionString"];
+                });
+                Console.WriteLine("Using Azure Application Insights");
+            }
+
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllers();
+
+            services.AddHealthChecks();
 
             // Swagger
             services.AddSwaggerGen(c =>
@@ -109,9 +136,7 @@ namespace MicroCommunication.Random
 
             app.UseEndpoints(endpoints =>
             {
-                // Add Prometheus server
-                endpoints.MapMetrics();
-
+                endpoints.MapHealthChecks("/healthz");
                 endpoints.MapControllers();
             });
 

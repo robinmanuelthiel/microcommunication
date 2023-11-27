@@ -1,30 +1,30 @@
-import { Component } from '@angular/core';
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
-import { environment } from 'src/environments/environment';
+import { Component } from "@angular/core";
+import { ApplicationInsights } from "@microsoft/applicationinsights-web";
+import { environment } from "src/environments/environment";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.sass"],
 })
 export class AppComponent {
-  title = 'MicroCommunication-Web';
+  title = "MicroCommunication-Web";
   appInsights: ApplicationInsights;
 
   constructor() {
-    if (environment.applicationInsightsInstrumentationKey) {
+    if (environment.applicationInsightsConnectionString) {
       // Initialize Application Insights
       this.appInsights = new ApplicationInsights({
         config: {
-          instrumentationKey: environment.applicationInsightsInstrumentationKey,
+          instrumentationKey: environment.applicationInsightsConnectionString,
           extensions: [],
-          enableAutoRouteTracking: true
-        }
+          enableAutoRouteTracking: true,
+        },
       });
       this.appInsights.loadAppInsights();
 
       // Log a Demo Event
-      this.appInsights.trackEvent({ name: 'Web Frontend Loaded (Test Event)'});
+      this.appInsights.trackEvent({ name: "Web Frontend Loaded (Test Event)" });
     }
   }
 }

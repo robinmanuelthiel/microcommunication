@@ -11,8 +11,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Prometheus;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using RandomNameGeneratorLibrary;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Refit;
 
 namespace MicroCommunication.Api
@@ -45,13 +48,6 @@ namespace MicroCommunication.Api
                 });
             }
 
-            // Logging
-            if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsInstrumentationKey"]))
-            {
-                services.AddApplicationInsightsTelemetry(Configuration["ApplicationInsightsInstrumentationKey"]);
-                Console.WriteLine("Application Insights configured.");
-            }
-
             // Register Random API
             services
                 .AddRefitClient<IRandomApi>()
@@ -67,10 +63,41 @@ namespace MicroCommunication.Api
             var environment = string.IsNullOrEmpty(Configuration["EnvironmentName"]) ? "Default" : Configuration["EnvironmentName"];
             Console.WriteLine("My environment is: " + environment);
 
+            // Monitoring
+            services
+                .AddOpenTelemetry()
+                .WithMetrics(builder =>
+                {
+                    builder.AddRuntimeInstrumentation();
+                    builder.AddHttpClientInstrumentation();
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddPrometheusExporter();
+                })
+                .WithTracing(builder =>
+                {
+                    builder.AddAspNetCoreInstrumentation();
+                    builder.AddEntityFrameworkCoreInstrumentation();
+                    builder.ConfigureResource((resource) =>
+                    {
+                        resource.AddService("API", "MicroCommunication", Assembly.GetExecutingAssembly().GetName().Version!.ToString(), false, name);
+                    });
+                });
+
+            if (!string.IsNullOrEmpty(Configuration["ApplicationInsightsConnectionString"]))
+            {
+                services.AddOpenTelemetry().UseAzureMonitor(options =>
+                {
+                    options.ConnectionString = Configuration["ApplicationInsightsConnectionString"];
+                });
+                Console.WriteLine("Using Azure Application Insights");
+            }
+
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddControllers();
+
+            services.AddHealthChecks();
 
             // SignalR
             var signalR = services.AddSignalR();
@@ -156,12 +183,12 @@ namespace MicroCommunication.Api
 
             app.UseEndpoints(endpoints =>
             {
-                // Add Prometheus server
-                endpoints.MapMetrics();
-
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/healthz");
                 endpoints.MapHub<ChatHub>("/chat");
             });
+
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

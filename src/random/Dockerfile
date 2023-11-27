@@ -3,7 +3,7 @@
 #######################################################
 # Download the official ASP.NET Core SDK image
 # to build the project while creating the docker image
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 as build
+FROM mcr.microsoft.com/dotnet/sdk:6 as build
 WORKDIR /app
 
 # Restore NuGet packages
@@ -26,7 +26,7 @@ RUN dotnet test --configuration Release MicroCommunication.Random.Tests/MicroCom
 #######################################################
 # Download the official ASP.NET Core Runtime image
 # to run the compiled application
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+FROM mcr.microsoft.com/dotnet/aspnet:6
 WORKDIR /app
 
 # Open port
