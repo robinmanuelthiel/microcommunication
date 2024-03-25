@@ -26,10 +26,10 @@ jobs:
         run: docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push API image
-        run: docker push robinmanuelthiel/microcommunication-api
+        run: docker push robinmanuelthiel/microcommunication-api --all-tags
 
       - name: Push Random image
-        run: docker push robinmanuelthiel/microcommunication-random
+        run: docker push robinmanuelthiel/microcommunication-random --all-tags
 
       - name: Push Web image
-        run: docker push robinmanuelthiel/microcommunication-web
+        run: docker push robinmanuelthiel/microcommunication-web --all-tags
