@@ -4,5 +4,5 @@
   window["env"]["apiUrl"] = "${API_URL}";
   window["env"]["apiKey"] = "${API_KEY}";
   window["env"]["applicationInsightsConnectionString"] =
-    "${APPLICATION_INSIGHTS_INSTRUMENTATION_KEY}";
+    "${APPLICATION_INSIGHTS_CONNECTION_STRING}";
 })(this);

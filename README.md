@@ -17,8 +17,8 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 The project consists of
 
 - An API Gateway, written in .NET Core, exposes port `8080`
-- A Radom Number Generator Service, written in .NET Core, exposes port `8080`
-- A Web Frontend, written in Angular, exposes port `8080`
+- A Radom Number Generator Service, written in .NET Core, exposes port `8090`
+- A Web Frontend, written in Angular, exposes port `5000`
 
 ## Make it run
 
@@ -40,21 +40,21 @@ You need to set some environment variables to configure the services and their d
 
 - `ApiKey=test123` _Optional: The key, that the API allows for authorization_
 - `RedisCacheConnectionString=...` _Optional: The connection string for a Redis Cache to sync SignalR Hubs_
-- `ApplicationInsightsConnectionString=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `ApplicationInsightsConnectionString=...` _Optional: The Azure Application Insights Connection String_
 - `Cors` _Optional: The domain of your web app to add to the CORS_
 - `RandomApiUrl` _The URL to connect to the Random Service_
 
 `MicroCommunication.Random`:
 
 - `MongoDbConnectionString=mongo://...` _Optional: The connection string for a Mongo DB to store the history in_
-- `ApplicationInsightsConnectionString=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `ApplicationInsightsConnectionString=...` _Optional: The Azure Application Insights Connection String_
 - `Cors` _Optional: The domain of your web app to add to the CORS_
 
 `MicroCommunication.Web`:
 
 - `API_URL=http://localhost:8080` _Where to find the API_
 - `API_KEY=test123` _Which key to use when calling the API_
-- `APPLICATION_INSIGHTS_INSTRUMENTATION_KEY=...` _Optional: The Azure Application Insights Instrumentation Key_
+- `APPLICATION_INSIGHTS_CONNECTION_STRING=...` _Optional: The Azure Application Insights Connection String_
 
 ## Deploy
 
