@@ -17,7 +17,7 @@ RUN npm run build -- --configuration production --output-path=/dist
 #######################################################
 # Step 2: Run the build outcome in a container        #
 #######################################################
-FROM nginx:alpine
+FROM nginx:1.21.0-alpine
 
 # Copy the build outputs over to this container
 COPY nginx.conf /etc/nginx/nginx.conf
@@ -36,5 +36,6 @@ RUN echo "envsubst < /usr/share/nginx/html/assets/appsettings.template.js > /usr
 
 # Switch to new user
 USER node
+EXPOSE 8080
 
 CMD ["/bin/sh", "run.sh"]

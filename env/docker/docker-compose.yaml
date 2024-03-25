@@ -7,11 +7,11 @@ services:
       context: ../../src/api
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "5100:8080"
     environment:
       - Database=CosmosDB
       - RandomApiUrl=http://random:8090
-      - Cors="http://localhost:5000"
+      - Cors=http://localhost:8080
     env_file:
       - .env
     depends_on:
@@ -21,8 +21,6 @@ services:
     build:
       context: ../../src/random
       dockerfile: Dockerfile
-    ports:
-      - "8090:8090"
     env_file:
       - .env
 
@@ -31,22 +29,8 @@ services:
       context: ../../src/web
       dockerfile: Dockerfile
     ports:
-      - "5000:8080"
+      - "8080:8080"
     environment:
-      - API_URL=http://localhost:8080
+      - API_URL=http://localhost:5100
     depends_on:
       - api
-
-  # cosmosdb:
-  #   image: mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator
-  #   hostname: cosmosdb
-  #   mem_limit: 3g
-  #   cpus: 2.0
-  #   ports:
-  #     - "8081:8081"
-  #     - "10251:10251"
-  #     - "10252:10252"
-  #     - "10254:10254"
-  #   environment:
-  #     - AZURE_COSMOS_EMULATOR_PARTITION_COUNT=10
-  #     - AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=true

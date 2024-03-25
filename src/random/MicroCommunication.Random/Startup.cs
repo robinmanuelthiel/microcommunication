@@ -105,19 +105,6 @@ namespace MicroCommunication.Random
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-
-            // CORS
-            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
-            {
-                builder
-                    .WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-
-                if (!string.IsNullOrEmpty(Configuration["Cors"]))
-                    builder.WithOrigins(Configuration["Cors"]);
-            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -128,9 +115,14 @@ namespace MicroCommunication.Random
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseRouting();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/1.0/swagger.json", "Version 1.0");
+                c.RoutePrefix = string.Empty;
+            });
 
-            app.UseCors("CorsPolicy");
+            app.UseRouting();
 
             app.UseAuthorization();
 
@@ -138,13 +130,6 @@ namespace MicroCommunication.Random
             {
                 endpoints.MapHealthChecks("/healthz");
                 endpoints.MapControllers();
-            });
-
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/1.0/swagger.json", "Version 1.0");
-                c.RoutePrefix = string.Empty;
             });
         }
     }

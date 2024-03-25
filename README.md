@@ -16,9 +16,9 @@ This is a small demo project to quickly setup a mix of containerized micro-servi
 
 The project consists of
 
-- An API Gateway, written in .NET Core, exposes port `8080`
-- A Radom Number Generator Service, written in .NET Core, exposes port `8090`
-- A Web Frontend, written in Angular, exposes port `5000`
+- An API Gateway, written in .NET Core, exposes port `8080` (`8080` when in a Container)
+- A Radom Number Generator Service, written in .NET Core, exposes port `8090` (`8080` when in a Container)
+- A Web Frontend, written in Angular, exposes port `4200` (`8080` when in a Container)
 
 ## Make it run
 

@@ -93,6 +93,22 @@ namespace MicroCommunication.Api
                 Console.WriteLine("Using Azure Application Insights");
             }
 
+            // CORS
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                var cors = string.IsNullOrEmpty(Configuration["Cors"])
+                    ? "http://localhost:5000"
+                    : Configuration["Cors"];
+                Console.WriteLine("CORS: " + Configuration["Cors"]);
+
+                builder
+                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+                    .WithOrigins(Configuration["Cors"])
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
+            }));
+
             // Enforce lowercase routes
             services.AddRouting(options => options.LowercaseUrls = true);
 
@@ -144,19 +160,6 @@ namespace MicroCommunication.Api
                     });
                 }
             });
-
-            // CORS
-            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
-            {
-                builder
-                    .WithOrigins("http://localhost:5000")
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-
-                if (!string.IsNullOrEmpty(Configuration["Cors"]))
-                    builder.WithOrigins(Configuration["Cors"]);
-            }));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -176,12 +179,20 @@ namespace MicroCommunication.Api
                 });
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/1.0/swagger.json", "Version 1.0");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseRouting();
 
             app.UseCors("CorsPolicy");
 
             app.UseAuthorization();
 
+            app.UseOpenTelemetryPrometheusScrapingEndpoint();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -189,14 +200,9 @@ namespace MicroCommunication.Api
                 endpoints.MapHub<ChatHub>("/chat");
             });
 
-            app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/1.0/swagger.json", "Version 1.0");
-                c.RoutePrefix = string.Empty;
-            });
+
+
         }
     }
 }
