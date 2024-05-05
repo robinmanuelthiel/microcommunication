@@ -41,5 +41,20 @@ namespace MicroCommunication.Api.Controllers
             // Return the result
             return Ok(value);
         }
+
+        // GET api/values/even
+        [HttpGet]
+        [Route("even")]
+        public ActionResult<int> GetEven()
+        {
+            // Generate a random even number
+            var random = new Random();
+            int value = random.Next() | 1; // Ensure the number is even by setting the least significant bit to 1
+
+            Console.WriteLine($"Generated even number: {value}"); // Log the value to the console
+
+            // Return the result
+            return Ok(value);
+        }
     }
 }
